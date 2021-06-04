@@ -8,7 +8,7 @@ import javax.persistence.Table;
 @Table(name ="produtoPedidos")
 public class Produto_Pedidos {
 	
-	private Long id;]]]
+	private Long id;
 	private Long produto_id;
 	private Long pedidos_id;
 	private Integer quantide;
