@@ -1,4 +1,4 @@
-package br.com.serratec.lojavirtual.model;
+package br.com.serratec.lojavirtual.model.cliente;
 
 import java.util.Date;
 
@@ -16,7 +16,28 @@ public class Cliente {
 	private String cpf;
 	private String telefone;
 	private Date dataDeNascimento;
-	private Long enderecoId;
+	private Endereco enderecoId;
+	
+	public Cliente() {}
+	
+	public Cliente(
+			Long id,
+			String email,
+			String nome,
+			String senha,
+			String cpf,
+			String telefone,
+			Date dataDeNascimento,
+			Endereco enderecoId) {
+		this.id = id;
+		this.email = email;
+		this.nome = nome;
+		this.senha = senha;
+		this.cpf = cpf;
+		this.telefone = telefone;
+		this.dataDeNascimento = dataDeNascimento;
+		this.enderecoId = enderecoId;
+	}
 	
 	
 	public Long getId() {
@@ -61,10 +82,10 @@ public class Cliente {
 	public void setDataDeNascimento(Date dataDeNascimento) {
 		this.dataDeNascimento = dataDeNascimento;
 	}
-	public Long getEnderecoId() {
+	public Endereco getEnderecoId() {
 		return enderecoId;
 	}
-	public void setEnderecoId(Long enderecoId) {
+	public void setEnderecoId(Endereco enderecoId) {
 		this.enderecoId = enderecoId;
 	}
 

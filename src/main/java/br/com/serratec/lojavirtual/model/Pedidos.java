@@ -6,17 +6,39 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import br.com.serratec.lojavirtual.model.cliente.Cliente;
+import br.com.serratec.lojavirtual.model.produto.Produto;
+
 @Entity
 @Table(name = "pedidos")
 public class Pedidos {
 	
 	private Long id;
 	private Integer numeroDoPedido;
-	private ArrayList<Produto> lisraDeProdutos;
-	private Double ValorTotalDoPedido;
+	private ArrayList<Produto> listaDeProdutos;
+	private Double valorTotalDoPedido;
 	private Date dataDoPedido;
 	private String status;
-	private Long cliente_id;
+	private Cliente cliente_id;
+	
+	public Pedidos() {}
+	
+	public Pedidos(
+			Integer numeroDoPedido,
+			ArrayList<Produto> listaDeProdutos,
+			Double valorTotalDoPedido,
+			Date dataDoPedido,
+			String status,
+			Cliente cliente_id) {
+		this.numeroDoPedido = numeroDoPedido;
+		this.listaDeProdutos = listaDeProdutos;
+		this.valorTotalDoPedido = valorTotalDoPedido;
+		this.dataDoPedido = dataDoPedido;
+		this.status = status;
+		this.cliente_id = cliente_id;		
+	}
+	
+	
 	public Long getId() {
 		return id;
 	}
@@ -29,17 +51,17 @@ public class Pedidos {
 	public void setNumeroDoPedido(Integer numeroDoPedido) {
 		this.numeroDoPedido = numeroDoPedido;
 	}
-	public ArrayList<Produto> getLisraDeProdutos() {
-		return lisraDeProdutos;
+	public ArrayList<Produto> getListaDeProdutos() {
+		return listaDeProdutos;
 	}
-	public void setLisraDeProdutos(ArrayList<Produto> lisraDeProdutos) {
-		this.lisraDeProdutos = lisraDeProdutos;
+	public void setListaDeProdutos(ArrayList<Produto> listaDeProdutos) {
+		this.listaDeProdutos = listaDeProdutos;
 	}
 	public Double getValorTotalDoPedido() {
-		return ValorTotalDoPedido;
+		return valorTotalDoPedido;
 	}
 	public void setValorTotalDoPedido(Double valorTotalDoPedido) {
-		ValorTotalDoPedido = valorTotalDoPedido;
+		this.valorTotalDoPedido = valorTotalDoPedido;
 	}
 	public Date getDataDoPedido() {
 		return dataDoPedido;
@@ -53,10 +75,10 @@ public class Pedidos {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	public Long getCliente_id() {
+	public Cliente getCliente_id() {
 		return cliente_id;
 	}
-	public void setCliente_id(Long cliente_id) {
+	public void setCliente_id(Cliente cliente_id) {
 		this.cliente_id = cliente_id;
 	}
 

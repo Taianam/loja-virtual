@@ -1,4 +1,4 @@
-package br.com.serratec.lojavirtual.model;
+package br.com.serratec.lojavirtual.model.cliente;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,6 +20,27 @@ public class Endereco {
 	private Integer numero;
 	private String complemento;
 	private String estado;
+	
+	public Endereco () {}
+	
+	public Endereco (
+			Long id,
+			String cep,
+			String rua,
+			String bairro,
+			String cidade,
+			Integer numero,
+			String complemento,
+			String estado) {
+		this.id = id;
+		this.cep = cep;
+		this.rua = rua;
+		this.bairro = bairro;
+		this.cidade = cidade;
+		this.numero = numero;
+		this.complemento = complemento;
+		this.estado = estado;
+	}
 	
 	
 	public Long getId() {
