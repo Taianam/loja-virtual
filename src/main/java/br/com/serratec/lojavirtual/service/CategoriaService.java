@@ -18,16 +18,16 @@ public class CategoriaService {
 		return this._repositorioCategoria.findAll();
 	}
 
-	public void adicionar(Categoria categoria) {
-		verificarSeCategoriaEValida(categoria);
+	public Categoria adicionar(Categoria categoria) {
+		verificarSeCategoriaEValida(null);
 		
-		this._repositorioCategoria.save(categoria);
+		return this._repositorioCategoria.save(categoria);
 	}
 	
-	public void atualizar(Long id, Categoria categoria) {
+	public Categoria atualizar(Long id, Categoria categoria) {
 		VerificarSeCategoriaExiste(id);
 		
-		this._repositorioCategoria.save(categoria);
+		return this._repositorioCategoria.save(categoria);
 	}
 	
 	public void apagar(Long id) {

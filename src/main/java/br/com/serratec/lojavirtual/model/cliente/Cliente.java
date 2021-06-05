@@ -1,14 +1,20 @@
 package br.com.serratec.lojavirtual.model.cliente;
 
+
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="cliente")
 public class Cliente {
 	 
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long id;
 	private String email;
 	private String nome;
@@ -16,7 +22,7 @@ public class Cliente {
 	private String cpf;
 	private String telefone;
 	private Date dataDeNascimento;
-	private Endereco enderecoId;
+	private Long enderecoId;
 	
 	public Cliente() {}
 	
@@ -28,7 +34,7 @@ public class Cliente {
 			String cpf,
 			String telefone,
 			Date dataDeNascimento,
-			Endereco enderecoId) {
+			Long enderecoId) {
 		this.id = id;
 		this.email = email;
 		this.nome = nome;
@@ -82,10 +88,10 @@ public class Cliente {
 	public void setDataDeNascimento(Date dataDeNascimento) {
 		this.dataDeNascimento = dataDeNascimento;
 	}
-	public Endereco getEnderecoId() {
+	public Long getEnderecoId() {
 		return enderecoId;
 	}
-	public void setEnderecoId(Endereco enderecoId) {
+	public void setEnderecoId(Long enderecoId) {
 		this.enderecoId = enderecoId;
 	}
 
