@@ -19,18 +19,22 @@ public class Produto {
 	private Double preco;
 	private Integer estoque;
 	// private obter imagem**************************************
+
 	private LocalDate dataDeCadastro;
 	private Long categoriaId;
 
 	public Produto() {
 	}
 
+
 	public Produto(String nome, String descricao, Double preco, Integer estoque, Long categoria) {
+
 		this.nome = nome;
 		this.descricao = descricao;
 		this.preco = preco;
 		this.estoque = estoque;
 		this.dataDeCadastro = LocalDate.now();
+
 	}
 
 	public Long getId() {

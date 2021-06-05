@@ -1,6 +1,5 @@
 package br.com.serratec.lojavirtual.model;
 
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,24 +9,26 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name = "produtoLong")
+@Table(name = "produtoPedidos")
 public class Produto_Pedidos {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long id;
 	private Long produto_id;
-	private Long Long_id;
+	private Long pedido_id;
 	private Integer quantidade;
 	private Double preco;
 
 	public Produto_Pedidos() {
 	}
 
-	public Produto_Pedidos(Long id, Long produto_id, Long Long_id, Integer quantidade, Double preco) {
+
+	public Produto_Pedidos(Long id, Long produto_id, Long pedido_id, Integer quantidade, Double preco) {
+
 		this.id = id;
 		this.produto_id = produto_id;
-		this.Long_id = Long_id;
+		this.pedido_id = pedido_id;
 		this.quantidade = quantidade;
 		this.preco = preco;
 	}
@@ -48,13 +49,15 @@ public class Produto_Pedidos {
 		this.produto_id = produto_id;
 	}
 
-	public Long getLong_id() {
-		return Long_id;
+	public Long getPedido_id() {
+		return pedido_id;
 	}
 
-	public void setLong_id(Long Long_id) {
-		this.Long_id = Long_id;
+
+	public void setPedido_id(Long pedido_id) {
+		this.pedido_id = pedido_id;
 	}
+
 
 	public Integer getQuantidade() {
 		return quantidade;

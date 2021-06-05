@@ -25,12 +25,13 @@ public class Pedidos {
 	private Date dataDoPedido;
 	private String status;
 	private Long cliente_id;
-
+	
 	public Pedidos() {
 	}
 
 	public Pedidos(Integer numeroDoPedido, ArrayList<Produto> listaDeProdutos, Double valorTotalDoPedido,
 			Date dataDoPedido, String status, Long cliente_id) {
+
 		this.numeroDoPedido = numeroDoPedido;
 		this.listaDeProdutos = listaDeProdutos;
 		this.valorTotalDoPedido = valorTotalDoPedido;
@@ -87,11 +88,13 @@ public class Pedidos {
 		this.status = status;
 	}
 
+
 	public Long getCliente_id() {
 		return cliente_id;
 	}
 
 	public void setCliente_id(Long cliente_id) {
+
 		this.cliente_id = cliente_id;
 	}
 

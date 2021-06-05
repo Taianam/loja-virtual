@@ -1,6 +1,7 @@
 package br.com.serratec.lojavirtual.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,8 @@ public class CategoriaService {
 	}
 
 	public Categoria adicionar(Categoria categoria) {
-		verificarSeCategoriaEValida(null);
+		categoria.setId(null);
+		verificarSeCategoriaEValida(categoria);
 		
 		return this._repositorioCategoria.save(categoria);
 	}
@@ -28,24 +30,31 @@ public class CategoriaService {
 		VerificarSeCategoriaExiste(id);
 		
 		return this._repositorioCategoria.save(categoria);
+
 	}
-	
+
 	public void apagar(Long id) {
 		VerificarSeCategoriaExiste(id);
-		
+
 		this._repositorioCategoria.deleteById(id);
 	}
-	
-	// /!\ INCOMPLETO /!\
-	private boolean verificarSeCategoriaEValida(Categoria categoria) {
-	//  /!\ FAZER VALIDAÇÂO DA CATEGORIA /!\
-		return true;
+
+	// /!\ Alterar exception /!\
+	private void verificarSeCategoriaEValida(Categoria categoria) {
+
+		if (categoria.getNome() == null || categoria.getNome() == "" || categoria.getDescricao() == null
+				|| categoria.getDescricao() == "") {
+			throw new RuntimeException();
+		}
 	}
-	
-	// /!\ INCOMPLETO /!\
-	private boolean VerificarSeCategoriaExiste(Long id) {
-	// /!\ VERIFICAR SE A CATEGORIA EXISTE /!\
-		return true;
+
+	// /!\ Alterar exception /!\
+	private void VerificarSeCategoriaExiste(Long id) {
+		Optional<Categoria> categoria = this._repositorioCategoria.findById(id);
+
+		if (categoria.isEmpty()) {
+			throw new RuntimeException();
+		}
 	}
 
 }
