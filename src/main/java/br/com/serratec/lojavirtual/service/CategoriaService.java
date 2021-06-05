@@ -28,6 +28,7 @@ public class CategoriaService {
 	
 	public Categoria atualizar(Long id, Categoria categoria) {
 		VerificarSeCategoriaExiste(id);
+		categoria.setId(id);
 		
 		return this._repositorioCategoria.save(categoria);
 

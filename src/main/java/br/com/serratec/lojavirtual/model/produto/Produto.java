@@ -26,7 +26,6 @@ public class Produto {
 	public Produto() {
 	}
 
-
 	public Produto(String nome, String descricao, Double preco, Integer estoque, Long categoria) {
 
 		this.nome = nome;

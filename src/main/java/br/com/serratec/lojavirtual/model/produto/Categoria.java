@@ -1,6 +1,5 @@
 package br.com.serratec.lojavirtual.model.produto;
 
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,10 +9,12 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "categoria")
 public class Categoria {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long id;
+	
+	
 	private String nome;
 	private String descricao;
 
@@ -51,4 +52,3 @@ public class Categoria {
 	}
 
 }
-

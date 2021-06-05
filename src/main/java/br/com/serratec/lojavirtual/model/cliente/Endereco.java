@@ -92,7 +92,4 @@ public class Endereco {
 		this.estado = estado;
 	}
 
-	
-	
-	
 }
