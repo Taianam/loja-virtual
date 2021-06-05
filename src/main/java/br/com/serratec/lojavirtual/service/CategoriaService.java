@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.serratec.lojavirtual.model.Categoria;
+import br.com.serratec.lojavirtual.model.produto.Categoria;
 import br.com.serratec.lojavirtual.repository.CategoriaRepository;
 
 @Service
