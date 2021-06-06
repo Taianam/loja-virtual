@@ -1,6 +1,5 @@
 package br.com.serratec.lojavirtual.model.cliente;
 
-
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -11,9 +10,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="cliente")
+@Table(name = "cliente")
 public class Cliente {
-	 
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long id;
@@ -26,17 +25,11 @@ public class Cliente {
 	private String telefone;
 	private Date dataDeNascimento;
 	private Long enderecoId;
-	
-	public Cliente() {}
-	
-	public Cliente(
-			Long id,
-			String email,
-			String nome,
-			String senha,
-			String cpf,
-			String telefone,
-			Date dataDeNascimento,
+
+	public Cliente() {
+	}
+
+	public Cliente(Long id, String email, String nome, String senha, String cpf, String telefone, Date dataDeNascimento,
 			Long enderecoId) {
 		this.id = id;
 		this.email = email;
@@ -47,56 +40,69 @@ public class Cliente {
 		this.dataDeNascimento = dataDeNascimento;
 		this.enderecoId = enderecoId;
 	}
-	
-	
+
 	public Long getId() {
 		return id;
 	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
+
 	public String getEmail() {
 		return email;
 	}
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
 	public String getNome() {
 		return nome;
 	}
+
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+
 	public String getSenha() {
 		return senha;
 	}
+
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
+
 	public String getCpf() {
 		return cpf;
 	}
+
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
+
 	public String getTelefone() {
 		return telefone;
 	}
+
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
 	}
+
 	public Date getDataDeNascimento() {
 		return dataDeNascimento;
 	}
+
 	public void setDataDeNascimento(Date dataDeNascimento) {
 		this.dataDeNascimento = dataDeNascimento;
 	}
+
 	public Long getEnderecoId() {
 		return enderecoId;
 	}
+
 	public void setEnderecoId(Long enderecoId) {
 		this.enderecoId = enderecoId;
 	}
-
 
 }

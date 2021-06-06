@@ -6,8 +6,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-
-
 @Entity
 @Table(name = "produtoPedidos")
 public class Produto_Pedidos {
@@ -22,7 +20,6 @@ public class Produto_Pedidos {
 
 	public Produto_Pedidos() {
 	}
-
 
 	public Produto_Pedidos(Long id, Long produto_id, Long pedido_id, Integer quantidade, Double preco) {
 
@@ -53,11 +50,9 @@ public class Produto_Pedidos {
 		return pedido_id;
 	}
 
-
 	public void setPedido_id(Long pedido_id) {
 		this.pedido_id = pedido_id;
 	}
-
 
 	public Integer getQuantidade() {
 		return quantidade;

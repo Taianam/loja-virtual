@@ -9,7 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-
 import br.com.serratec.lojavirtual.model.produto.Produto;
 
 @Entity
@@ -25,7 +24,7 @@ public class Pedidos {
 	private Date dataDoPedido;
 	private String status;
 	private Long cliente_id;
-	
+
 	public Pedidos() {
 	}
 
@@ -87,7 +86,6 @@ public class Pedidos {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-
 
 	public Long getCliente_id() {
 		return cliente_id;
