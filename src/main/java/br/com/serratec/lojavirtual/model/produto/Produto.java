@@ -18,8 +18,7 @@ public class Produto {
 	private String descricao;
 	private Double preco;
 	private Integer estoque;
-	// private obter imagem**************************************
-
+	private String imagem;
 	private LocalDate dataDeCadastro;
 	private Long categoriaId;
 
@@ -91,6 +90,16 @@ public class Produto {
 
 	public void setCategoriaId(Long categoriaId) {
 		this.categoriaId = categoriaId;
+	}
+
+
+	public String getImagem() {
+		return imagem;
+	}
+
+
+	public void setImagem(String imagem) {
+		this.imagem = imagem;
 	}
 
 }

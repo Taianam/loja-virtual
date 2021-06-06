@@ -3,6 +3,7 @@ package br.com.serratec.lojavirtual.model.cliente;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,6 +20,8 @@ public class Cliente {
 	private String email;
 	private String nome;
 	private String senha;
+	
+	@Column( length = 11, nullable = false)
 	private String cpf;
 	private String telefone;
 	private Date dataDeNascimento;
