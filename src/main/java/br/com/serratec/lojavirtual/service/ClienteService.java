@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.serratec.lojavirtual.exception.ResourceBadRequestException;
 import br.com.serratec.lojavirtual.model.cliente.Cliente;
 import br.com.serratec.lojavirtual.repository.ClienteRepository;
 
@@ -23,7 +24,11 @@ public class ClienteService {
 	
 	
 	public Cliente adicionar( Cliente cliente) {
-	return this._repositorioCliente.save(cliente);
+
+		if(!cliente.validoParaCadastro()){
+			throw new ResourceBadRequestException("Campos obrigatórios ;-;");
+		}
+		return this._repositorioCliente.save(cliente);
 	}
 	
 

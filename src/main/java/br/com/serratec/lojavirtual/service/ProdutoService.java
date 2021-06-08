@@ -6,7 +6,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
+import br.com.serratec.lojavirtual.exception.ResourceBadRequestException;
+import br.com.serratec.lojavirtual.exception.ResourceNotFoundException;
 import br.com.serratec.lojavirtual.model.produto.Produto;
 import br.com.serratec.lojavirtual.repository.ProdutoRepository;
 
@@ -44,9 +45,8 @@ public class ProdutoService {
 	// /!\ Alterar exception /!\
 	private void verificarSeProdutoEValido(Produto produto) {
 
-		if (produto.getNome() == null || produto.getNome() == "" || produto.getDescricao() == null
-				|| produto.getDescricao() == "" || produto.getPreco()== null ||produto.getPreco()== 0 || produto.getEstoque()== null|| produto.getEstoque()== 0) {
-			throw new RuntimeException();
+		if (produto.validarParaCadastro()) {
+			throw new ResourceBadRequestException("Campos obrigatórios ;-;");
 		}
 	}
 
@@ -55,7 +55,7 @@ public class ProdutoService {
 		Optional<Produto> produto = this._repositorioProduto.findById(id);
 
 		if (produto.isEmpty()) {
-			throw new RuntimeException();
+			throw new ResourceNotFoundException("Produto não existente :(");
 		}
 	}
 

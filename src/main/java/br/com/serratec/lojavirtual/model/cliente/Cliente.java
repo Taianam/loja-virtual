@@ -41,6 +41,8 @@ public class Cliente {
 		this.enderecoId = enderecoId;
 	}
 
+	//#region Getters e Setters
+
 	public Long getId() {
 		return id;
 	}
@@ -105,4 +107,9 @@ public class Cliente {
 		this.enderecoId = enderecoId;
 	}
 
+	//#endregion
+
+	public Boolean validoParaCadastro(){
+		return (!this.nome.isEmpty() && !this.email.isEmpty() && !this.senha.isEmpty() && !this.cpf.isEmpty());
+	}
 }

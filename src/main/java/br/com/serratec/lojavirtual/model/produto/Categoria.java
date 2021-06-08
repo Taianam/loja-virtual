@@ -51,4 +51,7 @@ public class Categoria {
 		this.descricao = descricao;
 	}
 
+	public Boolean validarParaCadastro(){
+		return !this.nome.isEmpty() && !this.descricao.isEmpty();
+	}
 }
