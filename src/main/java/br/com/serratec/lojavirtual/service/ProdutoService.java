@@ -29,7 +29,7 @@ public class ProdutoService {
 	}
 	
 	public Produto atualizar(Long id, Produto produto) {
-		VerificarSeProdutoExiste(id);
+		verificarSeProdutoExiste(id);
 		produto.setId(id);
 		
 		return this._repositorioProduto.save(produto);
@@ -37,7 +37,7 @@ public class ProdutoService {
 	}
 
 	public void apagar(Long id) {
-		VerificarSeProdutoExiste(id);
+		verificarSeProdutoExiste(id);
 
 		this._repositorioProduto.deleteById(id);
 	}
@@ -51,7 +51,7 @@ public class ProdutoService {
 	}
 
 	// /!\ Alterar exception /!\
-	private void VerificarSeProdutoExiste(Long id) {
+	private void verificarSeProdutoExiste(Long id) {
 		Optional<Produto> produto = this._repositorioProduto.findById(id);
 
 		if (produto.isEmpty()) {
