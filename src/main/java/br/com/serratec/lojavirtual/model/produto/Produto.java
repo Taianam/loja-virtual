@@ -2,6 +2,7 @@ package br.com.serratec.lojavirtual.model.produto;
 
 import java.time.LocalDate;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,9 +12,12 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "Produtos")
 public class Produto {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long id;
+	
+	@Column(nullable = false)
 	private String nome;
 	private String descricao;
 	private Double preco;
