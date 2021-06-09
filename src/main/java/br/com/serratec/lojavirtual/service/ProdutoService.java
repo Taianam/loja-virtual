@@ -6,7 +6,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
+import br.com.serratec.lojavirtual.exception.ResourceBadRequestException;
+import br.com.serratec.lojavirtual.exception.ResourceNotFoundException;
 import br.com.serratec.lojavirtual.model.produto.Produto;
 import br.com.serratec.lojavirtual.repository.ProdutoRepository;
 
@@ -28,7 +29,7 @@ public class ProdutoService {
 	}
 	
 	public Produto atualizar(Long id, Produto produto) {
-		VerificarSeProdutoExiste(id);
+		verificarSeProdutoExiste(id);
 		produto.setId(id);
 		
 		return this._repositorioProduto.save(produto);
@@ -36,7 +37,7 @@ public class ProdutoService {
 	}
 
 	public void apagar(Long id) {
-		VerificarSeProdutoExiste(id);
+		verificarSeProdutoExiste(id);
 
 		this._repositorioProduto.deleteById(id);
 	}
@@ -44,18 +45,17 @@ public class ProdutoService {
 	// /!\ Alterar exception /!\
 	private void verificarSeProdutoEValido(Produto produto) {
 
-		if (produto.getNome() == null || produto.getNome() == "" || produto.getDescricao() == null
-				|| produto.getDescricao() == "" || produto.getPreco()== null ||produto.getPreco()== 0 || produto.getEstoque()== null|| produto.getEstoque()== 0) {
-			throw new RuntimeException();
+		if (produto.validarParaCadastro()) {
+			throw new ResourceBadRequestException("Campos obrigatórios ;-;");
 		}
 	}
 
 	// /!\ Alterar exception /!\
-	private void VerificarSeProdutoExiste(Long id) {
+	private void verificarSeProdutoExiste(Long id) {
 		Optional<Produto> produto = this._repositorioProduto.findById(id);
 
 		if (produto.isEmpty()) {
-			throw new RuntimeException();
+			throw new ResourceNotFoundException("Produto não existente :(");
 		}
 	}
 

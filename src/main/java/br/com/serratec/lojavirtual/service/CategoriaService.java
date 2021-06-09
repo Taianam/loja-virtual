@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.serratec.lojavirtual.exception.ResourceNotFoundException;
 import br.com.serratec.lojavirtual.model.produto.Categoria;
 import br.com.serratec.lojavirtual.repository.CategoriaRepository;
 
@@ -27,7 +28,7 @@ public class CategoriaService {
 	}
 	
 	public Categoria atualizar(Long id, Categoria categoria) {
-		VerificarSeCategoriaExiste(id);
+		verificarSeCategoriaExiste(id);
 		categoria.setId(id);
 		
 		return this._repositorioCategoria.save(categoria);
@@ -35,7 +36,7 @@ public class CategoriaService {
 	}
 
 	public void apagar(Long id) {
-		VerificarSeCategoriaExiste(id);
+		verificarSeCategoriaExiste(id);
 
 		this._repositorioCategoria.deleteById(id);
 	}
@@ -50,11 +51,11 @@ public class CategoriaService {
 	}
 
 	// /!\ Alterar exception /!\
-	private void VerificarSeCategoriaExiste(Long id) {
+	private void verificarSeCategoriaExiste(Long id) {
 		Optional<Categoria> categoria = this._repositorioCategoria.findById(id);
 
 		if (categoria.isEmpty()) {
-			throw new RuntimeException();
+			throw new ResourceNotFoundException("Categoria não encontrada :(");
 		}
 	}
 

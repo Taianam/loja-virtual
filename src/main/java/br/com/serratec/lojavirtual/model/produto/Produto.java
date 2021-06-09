@@ -39,6 +39,8 @@ public class Produto {
 
 	}
 
+	//#region Getters e Setters
+
 	public Long getId() {
 		return id;
 	}
@@ -105,4 +107,9 @@ public class Produto {
 		this.imagem = imagem;
 	}
 
+	//#endregion
+
+	public boolean validarParaCadastro(){
+		return (!this.nome.isEmpty() && !this.descricao.isEmpty() && !this.preco.equals(null) && !this.estoque.equals(null));
+	}
 }
