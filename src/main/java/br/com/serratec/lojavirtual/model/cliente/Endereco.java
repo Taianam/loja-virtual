@@ -1,24 +1,26 @@
 package br.com.serratec.lojavirtual.model.cliente;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.SequenceGenerator;
 
 @Entity
-@Table(name = "endereco")
+@SequenceGenerator(name = "generator_endereco", sequenceName = "sequence_endereco", initialValue = 1, allocationSize = 1)
 public class Endereco {
 	
 	@Id
-	@GeneratedValue( strategy = GenerationType.AUTO)
+	@GeneratedValue( strategy = GenerationType.AUTO, generator = "generator_endereco")
 	private Long id;
+	private Integer numero;
+	private String complemento;
+	@Column(nullable = false)
 	private String cep;
 	private String rua;
 	private String bairro;
 	private String cidade;
-	private Integer numero;
-	private String complemento;
 	private String estado;
 	
 	public Endereco () {}
@@ -49,6 +51,18 @@ public class Endereco {
 	public void setId(Long id) {
 		this.id = id;
 	}
+	public Integer getNumero() {
+		return numero;
+	}
+	public void setNumero(Integer numero) {
+		this.numero = numero;
+	}
+	public String getComplemento() {
+		return complemento;
+	}
+	public void setComplemento(String complemento) {
+		this.complemento = complemento;
+	}
 	public String getCep() {
 		return cep;
 	}
@@ -73,18 +87,7 @@ public class Endereco {
 	public void setCidade(String cidade) {
 		this.cidade = cidade;
 	}
-	public Integer getNumero() {
-		return numero;
-	}
-	public void setNumero(Integer numero) {
-		this.numero = numero;
-	}
-	public String getComplemento() {
-		return complemento;
-	}
-	public void setComplemento(String complemento) {
-		this.complemento = complemento;
-	}
+
 	public String getEstado() {
 		return estado;
 	}

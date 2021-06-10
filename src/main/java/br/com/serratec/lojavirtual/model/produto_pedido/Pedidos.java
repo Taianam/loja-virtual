@@ -1,4 +1,4 @@
-package br.com.serratec.lojavirtual.model;
+package br.com.serratec.lojavirtual.model.produto_pedido;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -8,8 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
-import br.com.serratec.lojavirtual.model.produto.Produto;
 
 @Entity
 @Table(name = "pedidos")

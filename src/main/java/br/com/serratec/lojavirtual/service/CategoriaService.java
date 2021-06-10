@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.serratec.lojavirtual.exception.ResourceNotFoundException;
-import br.com.serratec.lojavirtual.model.produto.Categoria;
+import br.com.serratec.lojavirtual.model.produto_pedido.Categoria;
 import br.com.serratec.lojavirtual.repository.CategoriaRepository;
 
 @Service

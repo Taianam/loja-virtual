@@ -2,35 +2,45 @@ package br.com.serratec.lojavirtual.model.cliente;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
+
 
 @Entity
-@Table(name = "cliente")
+@SequenceGenerator(name = "generator_cliente", sequenceName = "sequence_cliente", initialValue = 1, allocationSize = 1)
 public class Cliente {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gerator_cliente")
 	private Long id;
+	@Column(nullable = false, unique = true)
 	private String email;
+	@Column(nullable = false)
 	private String nome;
+	@Column(nullable = false, length = 8)
 	private String senha;
 	
 	@Column( length = 11, nullable = false)
 	private String cpf;
 	private String telefone;
 	private Date dataDeNascimento;
-	private Long enderecoId;
+	
+	@OneToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name = "endereco_id")
+	private Endereco endereco;
 
 	public Cliente() {
 	}
 
 	public Cliente(Long id, String email, String nome, String senha, String cpf, String telefone, Date dataDeNascimento,
-			Long enderecoId) {
+			Endereco endereco) {
 		this.id = id;
 		this.email = email;
 		this.nome = nome;
@@ -38,7 +48,7 @@ public class Cliente {
 		this.cpf = cpf;
 		this.telefone = telefone;
 		this.dataDeNascimento = dataDeNascimento;
-		this.enderecoId = enderecoId;
+		this.endereco = endereco;
 	}
 
 	//#region Getters e Setters
@@ -99,12 +109,12 @@ public class Cliente {
 		this.dataDeNascimento = dataDeNascimento;
 	}
 
-	public Long getEnderecoId() {
-		return enderecoId;
+	public Endereco getEndereco() {
+		return endereco;
 	}
 
-	public void setEnderecoId(Long enderecoId) {
-		this.enderecoId = enderecoId;
+	public void setEndereco(Endereco endereco) {
+		this.endereco= endereco;
 	}
 
 	//#endregion

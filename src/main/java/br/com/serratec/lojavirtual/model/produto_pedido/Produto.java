@@ -1,4 +1,4 @@
-package br.com.serratec.lojavirtual.model.produto;
+package br.com.serratec.lojavirtual.model.produto_pedido;
 
 import java.time.LocalDate;
 

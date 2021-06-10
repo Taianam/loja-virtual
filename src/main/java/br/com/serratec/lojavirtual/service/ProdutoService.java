@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.serratec.lojavirtual.exception.ResourceBadRequestException;
 import br.com.serratec.lojavirtual.exception.ResourceNotFoundException;
-import br.com.serratec.lojavirtual.model.produto.Produto;
+import br.com.serratec.lojavirtual.model.produto_pedido.Produto;
 import br.com.serratec.lojavirtual.repository.ProdutoRepository;
 
 @Service

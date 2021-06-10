@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.serratec.lojavirtual.model.produto.Categoria;
+import br.com.serratec.lojavirtual.model.produto_pedido.Categoria;
 import br.com.serratec.lojavirtual.service.CategoriaService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
