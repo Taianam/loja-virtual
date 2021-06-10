@@ -5,6 +5,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import br.com.serratec.lojavirtual.exception.ResourceBadRequestException;
 import br.com.serratec.lojavirtual.model.cliente.EnderecoViaCep;
 import reactor.core.publisher.Mono;
 
@@ -29,8 +30,8 @@ public class CepService {
 			return endereco;
 			
 		} catch (Exception e) {
-			e.printStackTrace();
-			return new EnderecoViaCep();
+			throw new ResourceBadRequestException("CEP invalido!");
+		
 		}
 
 	}

@@ -92,20 +92,16 @@ public class ClienteService {
 	}
 	
 	public void ligarViaCepComEdereco(Endereco endereco) {
-		EnderecoViaCep enderecoCompletado = servicoCep.obterEnderecoPorCep(endereco.getCep());
-		endereco.setRua(enderecoCompletado.getLogradouro());
-		endereco.setComplemento(enderecoCompletado.getComplemento());
-		endereco.setBairro(enderecoCompletado.getBairro());
-		endereco.setCidade(enderecoCompletado.getLocalidade());
-		endereco.setEstado(enderecoCompletado.getUf());
+		
+			EnderecoViaCep enderecoCompletado = servicoCep.obterEnderecoPorCep(endereco.getCep());
+			endereco.setRua(enderecoCompletado.getLogradouro());
+			endereco.setComplemento(enderecoCompletado.getComplemento());
+			endereco.setBairro(enderecoCompletado.getBairro());
+			endereco.setCidade(enderecoCompletado.getLocalidade());
+			endereco.setEstado(enderecoCompletado.getUf());	
+	
+		
 				
 	}
 	
-	public void validarEndereco(Endereco endereco) {
-	//CONCERTAR	
-//		 if("".equals()){
-//		    	throw new ResourceBadRequestException("CEP invalido!");
-//		 } 	
-	}
 }
-	
