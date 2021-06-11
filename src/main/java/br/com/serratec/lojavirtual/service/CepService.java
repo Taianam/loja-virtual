@@ -17,8 +17,6 @@ public class CepService {
 	
 	public EnderecoViaCep obterEnderecoPorCep(String cep) {
 		
-		
-		try {
 			
 			Mono<EnderecoViaCep> monoEndereco = this.cepWebClient
 				.method(HttpMethod.GET) 
@@ -29,10 +27,10 @@ public class CepService {
 			
 			return endereco;
 			
-		} catch (Exception e) {
-			throw new ResourceBadRequestException("CEP invalido!");
+		// } catch (ResourceBadRequestException e) {
+		// 	throw new ResourceBadRequestException("CEP invalido!");
 		
-		}
+		// }
 
 	}
 	

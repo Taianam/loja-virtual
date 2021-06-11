@@ -1,5 +1,6 @@
 package br.com.serratec.lojavirtual.model.cliente;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -20,17 +21,18 @@ public class Cliente {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gerator_cliente")
 	private Long id;
-	@Column(nullable = false, unique = true)
+	@Column(unique = true)
 	private String email;
-	@Column(nullable = false)
+	// @Column(nullable = false)
 	private String nome;
-	@Column(nullable = false, length = 8)
+	// @Column(nullable = false, length = 8)
 	private String senha;
 	
-	@Column( length = 11, nullable = false)
+	// @Column( length = 11, nullable = false)
 	private String cpf;
+
 	private String telefone;
-	private Date dataDeNascimento;
+	private LocalDate dataDeNascimento;
 	
 	@OneToOne(cascade=CascadeType.ALL)
     @JoinColumn(name = "endereco_id")
@@ -39,7 +41,7 @@ public class Cliente {
 	public Cliente() {
 	}
 
-	public Cliente(Long id, String email, String nome, String senha, String cpf, String telefone, Date dataDeNascimento,
+	public Cliente(Long id, String email, String nome, String senha, String cpf, String telefone, LocalDate dataDeNascimento,
 			Endereco endereco) {
 		this.id = id;
 		this.email = email;
@@ -101,11 +103,11 @@ public class Cliente {
 		this.telefone = telefone;
 	}
 
-	public Date getDataDeNascimento() {
+	public LocalDate getDataDeNascimento() {
 		return dataDeNascimento;
 	}
 
-	public void setDataDeNascimento(Date dataDeNascimento) {
+	public void setDataDeNascimento(LocalDate dataDeNascimento) {
 		this.dataDeNascimento = dataDeNascimento;
 	}
 
