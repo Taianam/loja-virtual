@@ -21,14 +21,17 @@ public class Cliente {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gerator_cliente")
 	private Long id;
+	
 	@Column(unique = true)
 	private String email;
-	// @Column(nullable = false)
+	
+	@Column(nullable = false)
 	private String nome;
-	// @Column(nullable = false, length = 8)
+	
+	@Column(nullable = false, length = 8)
 	private String senha;
 	
-	// @Column( length = 11, nullable = false)
+	@Column( length = 11, nullable = false)
 	private String cpf;
 
 	private String telefone;
@@ -121,7 +124,4 @@ public class Cliente {
 
 	//#endregion
 
-	public Boolean validoParaCadastro(){
-		return (!this.nome.isEmpty() && !this.email.isEmpty() && !this.senha.isEmpty() && !this.cpf.isEmpty());
-	}
 }

@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jca.endpoint.GenericMessageEndpointFactory.InternalResourceException;
 import org.springframework.stereotype.Service;
 
 import br.com.caelum.stella.validation.CPFValidator;
@@ -38,33 +37,18 @@ public class ClienteService {
 	public Cliente adicionar(Cliente cliente){
 		
 		cliente.setId(null);
-
+		verificarSeEmailExiste(cliente.getEmail());
+		validarCPF(cliente.getCpf());
+		ligarViaCepComEdereco(cliente.getEndereco());
+		
 		try {
-			validarCPF(cliente.getCpf());
-
-			ligarViaCepComEdereco(cliente.getEndereco());
-
-			cliente.validoParaCadastro();
-
 			this._repositorioCliente.save(cliente);
-
-		} catch (InvalidStateException e) { 
-
-			throw new ResourceBadRequestException("CPF invalido!");
-
-		} catch (ResourceBadRequestException e){
-
-			throw new ResourceBadRequestException("CEP invalido!");
-
 		}
 		catch (Exception e){
 
 			throw new ResourceBadRequestException("Campo obrigatorio :(");
 
 		} 
-		// --> AQUI FALTA TRATAR CASO REPITA O EMAIL <--
-		
-		
 		
 
 		var mensagem = "<!DOCTYPE html><html lang=pt-BR><head><meta charset=UTF-8><meta http-equiv=X-UA-Compatible content=\\\"IE=edge\\\"><meta name=viewport content=\\\"width=device-width, initial-scale=1.0\\\"><title>Email</title><body style=background-color:#8abee6><div style=color:white;text-align:center><h1>Bem vindo, %s !</h1><h2>Parabéns! Seu cadastro foi realizado com sucesso!</h2></div><div style=text-align:center><img style=width:400px src=https://www.ecommerceworld.com.br/wp-content/uploads/2015/12/loja-virtual-e-commerce.png alt=eComerce></div><h2 style=color:white;text-align:center>A Familia Dev-HQs, agradece a sua preferencia!<br>Boas Compras!</h2>";
@@ -79,11 +63,18 @@ public class ClienteService {
 	public Cliente atualizar(Long id, Cliente cliente) {
 
 		verificarSeClienteExiste(id);
-		cliente.setId(id);	
-		ligarViaCepComEdereco(cliente.getEndereco());
 		validarCPF(cliente.getCpf());
-	
-		return this._repositorioCliente.save(cliente);
+		ligarViaCepComEdereco(cliente.getEndereco());
+		
+		try {
+			this._repositorioCliente.save(cliente);
+		}
+		catch (Exception e){
+
+			throw new ResourceBadRequestException("Campo obrigatorio :(");
+
+		} 
+		return cliente;
 	}
 
 	
@@ -103,20 +94,31 @@ public class ClienteService {
 	}
 	
 	public void validarCPF(String cpf){ 
-	   
+			try {
 	    	 CPFValidator cpfValidado = new CPFValidator(); 
 	    	 cpfValidado.assertValid(cpf);	
+	    	 
+			} catch (InvalidStateException e) { 
+
+	 		throw new ResourceBadRequestException("CPF invalido!");
+
+	 		} 
 	}
 	
 	public void ligarViaCepComEdereco(Endereco endereco) {
-		
 			EnderecoViaCep enderecoCompletado = servicoCep.obterEnderecoPorCep(endereco.getCep());
 			endereco.setRua(enderecoCompletado.getLogradouro());
 			endereco.setComplemento(enderecoCompletado.getComplemento());
 			endereco.setBairro(enderecoCompletado.getBairro());
 			endereco.setCidade(enderecoCompletado.getLocalidade());
-			endereco.setEstado(enderecoCompletado.getUf());	
-		
+			endereco.setEstado(enderecoCompletado.getUf());		
 	}
 	
+	private void verificarSeEmailExiste(String email) {
+		Optional<Cliente> clienteEmail = this._repositorioCliente.findByEmail(email);
+		if (!clienteEmail.isEmpty()) {
+			throw new ResourceBadRequestException("Email, já cadastrado! :(");
+		}
+	}
+
 }
