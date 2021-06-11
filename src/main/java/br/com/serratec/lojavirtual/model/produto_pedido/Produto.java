@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -24,7 +26,10 @@ public class Produto {
 	private Integer estoque;
 	private String imagem;
 	private LocalDate dataDeCadastro;
-	private Long categoriaId;
+
+	@ManyToOne()
+	@JoinColumn(name = "categoriaId")
+	private Categoria categoria;
 
 	public Produto() {
 	}
@@ -89,12 +94,12 @@ public class Produto {
 		this.dataDeCadastro = dataDeCadastro;
 	}
 
-	public Long getCategoriaId() {
-		return categoriaId;
+	public Categoria getCategoria() {
+		return categoria;
 	}
 
-	public void setCategoriaId(Long categoriaId) {
-		this.categoriaId = categoriaId;
+	public void setCategoriaId(Categoria categoria) {
+		this.categoria = categoria;
 	}
 
 

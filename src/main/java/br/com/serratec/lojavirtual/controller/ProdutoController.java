@@ -39,7 +39,13 @@ public class ProdutoController {
 	public Produto adicionar(@RequestBody Produto produto) {
 		return this._produtoService.adicionar(produto);
 	}
-	
+
+	@ApiOperation(value = "Cadastra um produto com uma categoria já existente")
+	@PostMapping("/{categoriaId}")
+	public Produto adicionarComCategoriaExistente(@RequestBody Produto produto, @PathVariable(value = "categoriaId") Long categoriaId) {
+		return this._produtoService.adicionarComCategoriaExistente(produto, categoriaId);
+	}
+
 	@ApiOperation(value = "Atualiza um produto já existente")
 	@PutMapping(value = "/{id}")
 	public Produto atualizar(@PathVariable(value = "id")Long id, @RequestBody Produto produto) {

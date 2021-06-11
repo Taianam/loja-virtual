@@ -1,9 +1,12 @@
 package br.com.serratec.lojavirtual.model.produto_pedido;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -13,10 +16,17 @@ public class Categoria {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long id;
-	
-	
+
 	private String nome;
+
+	public void setProdutos(List<Produto> produtos) {
+		this.produtos = produtos;
+	}
+
 	private String descricao;
+
+	@OneToMany(mappedBy = "categoria")
+	private List<Produto> produtos;
 
 	public Categoria() {
 	}

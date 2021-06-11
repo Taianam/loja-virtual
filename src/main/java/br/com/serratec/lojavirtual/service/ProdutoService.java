@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 
 import br.com.serratec.lojavirtual.exception.ResourceBadRequestException;
 import br.com.serratec.lojavirtual.exception.ResourceNotFoundException;
+import br.com.serratec.lojavirtual.model.produto_pedido.Categoria;
 import br.com.serratec.lojavirtual.model.produto_pedido.Produto;
+import br.com.serratec.lojavirtual.repository.CategoriaRepository;
 import br.com.serratec.lojavirtual.repository.ProdutoRepository;
 
 @Service
@@ -17,10 +19,13 @@ public class ProdutoService {
 	@Autowired
 	ProdutoRepository _repositorioProduto;
 
+	@Autowired
+	CategoriaRepository _repositorioCategoria;
+
 	public List<Produto> obter() {
 		return this._repositorioProduto.findAll();
 	}
-
+		
 	public Produto adicionar(Produto produto) {
 		produto.setId(null);
 		verificarSeProdutoEValido(produto);
@@ -28,6 +33,21 @@ public class ProdutoService {
 		return this._repositorioProduto.save(produto);
 	}
 	
+	public Produto adicionarComCategoriaExistente(Produto produto, Long categoriaId) {
+		
+		verificarSeProdutoEValido(produto);
+			
+		Optional<Categoria> categoria = _repositorioCategoria.findById(categoriaId);
+		
+		if (categoria.isPresent()) {
+			produto.setCategoriaId(categoria.get());
+		} else {
+			return null;
+		}
+
+		return this._repositorioProduto.save(produto);
+		}
+
 	public Produto atualizar(Long id, Produto produto) {
 		verificarSeProdutoExiste(id);
 		produto.setId(id);

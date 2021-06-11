@@ -13,7 +13,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 
-
 @Entity
 @SequenceGenerator(name = "generator_cliente", sequenceName = "sequence_cliente", initialValue = 1, allocationSize = 1)
 public class Cliente {
@@ -108,6 +107,7 @@ public class Cliente {
 	}
 
 	public void setDataDeNascimento(LocalDate dataDeNascimento) {
+		
 		this.dataDeNascimento = dataDeNascimento;
 	}
 
