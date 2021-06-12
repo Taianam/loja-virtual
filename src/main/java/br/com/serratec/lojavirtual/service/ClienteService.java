@@ -68,7 +68,15 @@ public class ClienteService {
 
 		}
 
-		var mensagem = "<!DOCTYPE html><html lang=pt-BR><head><meta charset=UTF-8><meta http-equiv=X-UA-Compatible content=\\\"IE=edge\\\"><meta name=viewport content=\\\"width=device-width, initial-scale=1.0\\\"><title>Email</title><body style=background-color:#8abee6><div style=color:white;text-align:center><h1>Bem vindo, %s !</h1><h2>Parabéns! Seu cadastro foi realizado com sucesso!</h2></div><div style=text-align:center><img style=width:400px src=https://www.ecommerceworld.com.br/wp-content/uploads/2015/12/loja-virtual-e-commerce.png alt=eComerce></div><h2 style=color:white;text-align:center>A Familia Dev-HQs, agradece a sua preferencia!<br>Boas Compras!</h2>";
+		var mensagem = "<!DOCTYPE html><html lang=pt-BR><head><meta charset=UTF-8><meta http-"
+				+ "equiv=X-UA-Compatible content=\\\"IE=edge\\\"><meta name=viewport content="
+				+ "\\\"width=device-width, initial-scale=1.0\\\"><title>Email</title><body "
+				+ "style=background-color:#8abee6><div style=color:white;text-align:center><h1>Bem"
+				+ " vindo, %s !</h1><h2>Parabéns! Seu cadastro foi realizado com sucesso"
+				+ "!</h2></div><div style=text-align:center><img style=width:400px src=https://www."
+				+ "ecommerceworld.com.br/wp-content/uploads/2015/12/loja-virtual-e-commerce.png"
+				+ " alt=eComerce></div><h2 style=color:white;text-align:center>A Familia Dev-HQs, "
+				+ "agradece a sua preferencia!<br>Boas Compras!</h2>";
 		mensagem = String.format(mensagem, cliente.getNome());
 		var email = new MenssagemEmail("Cadastro realizado com sucesso!", mensagem, cliente.getEmail(),
 				Arrays.asList(cliente.getEmail()));
