@@ -1,6 +1,7 @@
 package br.com.serratec.lojavirtual.model.cliente;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -9,8 +10,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
+
+import br.com.serratec.lojavirtual.exception.ResourceBadRequestException;
+import br.com.serratec.lojavirtual.model.produto_pedido.Pedidos;
 
 @Entity
 @SequenceGenerator(name = "generator_cliente", sequenceName = "sequence_cliente", initialValue = 1, allocationSize = 1)
@@ -39,6 +44,9 @@ public class Cliente {
     @JoinColumn(name = "endereco_id")
 	private Endereco endereco;
 
+	@OneToMany(mappedBy = "cliente")
+	private List<Pedidos> pedidos;
+
 	public Cliente() {
 	}
 
@@ -55,6 +63,9 @@ public class Cliente {
 	}
 
 	//#region Getters e Setters
+	public void setPedidos(List<Pedidos> pedidos) {
+		this.pedidos = pedidos;
+	}
 
 	public Long getId() {
 		return id;
@@ -123,4 +134,9 @@ public class Cliente {
 
 	//#endregion
 
+	public void verificarCPF(Cliente cliente){
+		if(this.cpf != cliente.getCpf()){
+			throw new ResourceBadRequestException("Não é possivel atualizar seu CPF por favor coloque o mesmo ;-;");
+		}
+	}
 }

@@ -1,13 +1,21 @@
 package br.com.serratec.lojavirtual.model.produto_pedido;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import br.com.serratec.lojavirtual.model.cliente.Cliente;
 
 @Entity
 @Table(name = "pedidos")
@@ -17,28 +25,43 @@ public class Pedidos {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long id;
 	private Integer numeroDoPedido;
-	private ArrayList<Produto> listaDeProdutos;
 	private Double valorTotalDoPedido;
-	private Date dataDoPedido;
+	private LocalDate dataDoPedido;
 	private String status;
-	private Long cliente_id;
+	// private Long cliente_id;
+
+	@ManyToMany
+	@JoinTable(name = "pedido_produto", joinColumns = @JoinColumn(name = "pedidoId"), inverseJoinColumns = @JoinColumn(name = "produtoId"))
+	private List<Produto> listaDeProdutos = new ArrayList<Produto>();
+
+	@ManyToOne()
+	@JoinColumn(name = "cliente_id")
+	private Cliente cliente;
+
 
 	public Pedidos() {
 	}
 
 	public Pedidos(Integer numeroDoPedido, ArrayList<Produto> listaDeProdutos, Double valorTotalDoPedido,
-			Date dataDoPedido, String status, Long cliente_id) {
+			LocalDate dataDoPedido, String status, Long cliente_id) {
 
 		this.numeroDoPedido = numeroDoPedido;
 		this.listaDeProdutos = listaDeProdutos;
 		this.valorTotalDoPedido = valorTotalDoPedido;
 		this.dataDoPedido = dataDoPedido;
 		this.status = status;
-		this.cliente_id = cliente_id;
 	}
 
 	public Long getId() {
 		return id;
+	}
+
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
 	}
 
 	public void setId(Long id) {
@@ -53,11 +76,11 @@ public class Pedidos {
 		this.numeroDoPedido = numeroDoPedido;
 	}
 
-	public ArrayList<Produto> getListaDeProdutos() {
+	public List<Produto> getListaDeProdutos() {
 		return listaDeProdutos;
 	}
 
-	public void setListaDeProdutos(ArrayList<Produto> listaDeProdutos) {
+	public void setListaDeProdutos(List<Produto> listaDeProdutos) {
 		this.listaDeProdutos = listaDeProdutos;
 	}
 
@@ -69,11 +92,11 @@ public class Pedidos {
 		this.valorTotalDoPedido = valorTotalDoPedido;
 	}
 
-	public Date getDataDoPedido() {
+	public LocalDate getDataDoPedido() {
 		return dataDoPedido;
 	}
 
-	public void setDataDoPedido(Date dataDoPedido) {
+	public void setDataDoPedido(LocalDate dataDoPedido) {
 		this.dataDoPedido = dataDoPedido;
 	}
 
@@ -83,15 +106,6 @@ public class Pedidos {
 
 	public void setStatus(String status) {
 		this.status = status;
-	}
-
-	public Long getCliente_id() {
-		return cliente_id;
-	}
-
-	public void setCliente_id(Long cliente_id) {
-
-		this.cliente_id = cliente_id;
 	}
 
 }
