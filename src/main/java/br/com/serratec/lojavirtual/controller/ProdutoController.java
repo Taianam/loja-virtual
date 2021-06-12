@@ -37,16 +37,13 @@ public class ProdutoController {
 		return this._produtoService.obter();
 	}
 	
-<<<<<<< HEAD
 	@ApiOperation(value = "Retorna uma lista de produtos por nome")
 	@GetMapping(value = "/nome/{nome}")
 	public List<Produto> obter(@PathVariable(value = "nome") String nome) {
 		return this._produtoService.obter(nome);
 	}
 
-	
-=======
-	@ApiOperation(value = "Obter Produto por id")
+		@ApiOperation(value = "Obter Produto por id")
 	@GetMapping("/{id}")
 	public Optional<Produto> obterPorId(@PathVariable(value = "id") Long id){
 		return _produtoService.obterPorId(id);
@@ -56,7 +53,6 @@ public class ProdutoController {
 
 	//#region Post
 
->>>>>>> 260e690d62dc5768b793fa5144f5859bc02c8e15
 	@ApiOperation(value = "Cadastra um produto")
 	@PostMapping
 	public Produto adicionar(@RequestBody Produto produto) {

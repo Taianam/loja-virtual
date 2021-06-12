@@ -27,7 +27,6 @@ public class ProdutoService {
 		return this._repositorioProduto.findAll();
 	}
 
-<<<<<<< HEAD
 	public List<Produto> obter(String nome) {
 		List<Produto> produtos = _repositorioProduto.findByNomeContaining(nome);
 		if (produtos.isEmpty()) {
@@ -38,11 +37,11 @@ public class ProdutoService {
 
 	public Produto adicionar(Produto produto) {
 		produto.setId(null);
-		verificarSeProdutoEValido(produto);
+		verificarValorProduto(produto);
 
 		return this._repositorioProduto.save(produto);
 	}
-=======
+
 	public Optional<Produto> obterPorId(Long id) {
 		Optional<Produto> Produto = this._repositorioProduto.findById(id);
 		
@@ -52,14 +51,7 @@ public class ProdutoService {
 		}
 		return Produto;
 	}
-		
-	public Produto adicionar(Produto produto) {
-		produto.setId(null);
-		verificarValorProduto(produto);
-		// verificarSeProdutoEValido(produto);
-		
-		return this._repositorioProduto.save(produto);
-	}
+	
 	
 	public Produto adicionarComCategoriaExistente(Produto produto, Long categoriaId) {
 		
@@ -67,6 +59,8 @@ public class ProdutoService {
 			
 		Optional<Categoria> categoria = _repositorioCategoria.findById(categoriaId);
 		
+		verificarValorProduto(produto);
+
 		if (categoria.isPresent()) {
 			produto.setCategoriaId(categoria.get());
 		} else {
@@ -75,10 +69,10 @@ public class ProdutoService {
 
 		return this._repositorioProduto.save(produto);
 		}
->>>>>>> 260e690d62dc5768b793fa5144f5859bc02c8e15
 
 	public Produto atualizar(Long id, Produto produto) {
 		verificarSeProdutoExiste(id);
+		verificarValorProduto(produto);
 		produto.setId(id);
 
 		return this._repositorioProduto.save(produto);
@@ -109,17 +103,11 @@ public class ProdutoService {
 		this._repositorioProduto.deleteById(id);
 	}
 
-<<<<<<< HEAD
-	private void verificarSeProdutoEValido(Produto produto) {
 
-		if (produto.validarParaCadastro()) {
-			throw new ResourceBadRequestException("Campos obrigatórios ;-;");
-=======
 	private void verificarValorProduto(Produto produto){
 		if(!(produto.getPreco() * -1 < 0)){
 			throw new ResourceBadRequestException("Não é possivel cadastrar um produto com valor abaixo de 0.0");
 			
->>>>>>> 260e690d62dc5768b793fa5144f5859bc02c8e15
 		}
 	}
 

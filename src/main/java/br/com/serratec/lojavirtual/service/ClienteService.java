@@ -34,7 +34,6 @@ public class ClienteService {
 		return this._repositorioCliente.findAll();
 	}
 
-<<<<<<< HEAD
 	public List<Cliente> obter(String nome) {
 		List<Cliente> clientes = _repositorioCliente.findByNomeContaining(nome);
 		if (clientes.isEmpty()) {
@@ -43,9 +42,7 @@ public class ClienteService {
 		return clientes;
 	}
 
-	public Cliente adicionar(Cliente cliente) {
 
-=======
 	public Optional<Cliente> obterPorId(Long id) {
 		Optional<Cliente> Cliente = this._repositorioCliente.findById(id);
 		
@@ -58,7 +55,6 @@ public class ClienteService {
 
 	public Cliente adicionar(Cliente cliente){
 		
->>>>>>> 260e690d62dc5768b793fa5144f5859bc02c8e15
 		cliente.setId(null);
 		verificarSeEmailExiste(cliente.getEmail());
 		validarCPF(cliente.getCpf());

@@ -30,16 +30,16 @@ public class CategoriaController {
 
 	@ApiOperation(value = "Retorna uma lista de categorias cadastradas")
 	@GetMapping
-<<<<<<< HEAD
 	public List<Categoria> obter() {
-		return this._categoriaService.obter();
+		return this._categoriaService.obterTodos();
 	}
 
 	@ApiOperation(value = "Retorna uma lista de categorias por nome")
 	@GetMapping(value = "/nome/{nome}")
 	public List<Categoria> obter(@PathVariable(value = "nome") String nome) {
 		return this._categoriaService.obter(nome);
-=======
+	}
+	
 	public List<Categoria> obterTodos(){
 		return this._categoriaService.obterTodos();
 	}
@@ -48,7 +48,6 @@ public class CategoriaController {
 	@GetMapping("/{id}")
 	public Optional<Categoria> obterPorId(@PathVariable(value = "id") Long id){
 		return _categoriaService.obterPorId(id);
->>>>>>> 260e690d62dc5768b793fa5144f5859bc02c8e15
 	}
 
 	@ApiOperation(value = "Cadastra uma categoria")
