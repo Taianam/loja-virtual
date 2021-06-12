@@ -17,8 +17,18 @@ public class CategoriaService {
 	@Autowired
 	CategoriaRepository _repositorioCategoria;
 
-	public List<Categoria> obter() {
+	public List<Categoria> obterTodos() {
 		return this._repositorioCategoria.findAll();
+	}
+
+	public Optional<Categoria> obterPorId(Long id) {
+		Optional<Categoria> Categoria = this._repositorioCategoria.findById(id);
+		
+		if(Categoria.isEmpty()) {
+			
+			throw new ResourceNotFoundException("Não foi encontrado nenhuma Categoria para o id: " + id);
+		}
+		return Categoria;
 	}
 
 	public Categoria adicionar(Categoria categoria) {

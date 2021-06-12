@@ -1,5 +1,6 @@
 package br.com.serratec.lojavirtual.service;
 
+import java.sql.PreparedStatement;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,7 +9,9 @@ import org.springframework.stereotype.Service;
 
 import br.com.serratec.lojavirtual.exception.ResourceBadRequestException;
 import br.com.serratec.lojavirtual.exception.ResourceNotFoundException;
+import br.com.serratec.lojavirtual.model.produto_pedido.Categoria;
 import br.com.serratec.lojavirtual.model.produto_pedido.Produto;
+import br.com.serratec.lojavirtual.repository.CategoriaRepository;
 import br.com.serratec.lojavirtual.repository.ProdutoRepository;
 
 @Service
@@ -17,10 +20,14 @@ public class ProdutoService {
 	@Autowired
 	ProdutoRepository _repositorioProduto;
 
+	@Autowired
+	CategoriaRepository _repositorioCategoria;
+
 	public List<Produto> obter() {
 		return this._repositorioProduto.findAll();
 	}
 
+<<<<<<< HEAD
 	public List<Produto> obter(String nome) {
 		List<Produto> produtos = _repositorioProduto.findByNomeContaining(nome);
 		if (produtos.isEmpty()) {
@@ -35,6 +42,40 @@ public class ProdutoService {
 
 		return this._repositorioProduto.save(produto);
 	}
+=======
+	public Optional<Produto> obterPorId(Long id) {
+		Optional<Produto> Produto = this._repositorioProduto.findById(id);
+		
+		if(Produto.isEmpty()) {
+			
+			throw new ResourceNotFoundException("Não foi encontrado nenhuma Produto para o id: " + id);
+		}
+		return Produto;
+	}
+		
+	public Produto adicionar(Produto produto) {
+		produto.setId(null);
+		verificarValorProduto(produto);
+		// verificarSeProdutoEValido(produto);
+		
+		return this._repositorioProduto.save(produto);
+	}
+	
+	public Produto adicionarComCategoriaExistente(Produto produto, Long categoriaId) {
+		
+		// verificarSeProdutoEValido(produto);
+			
+		Optional<Categoria> categoria = _repositorioCategoria.findById(categoriaId);
+		
+		if (categoria.isPresent()) {
+			produto.setCategoriaId(categoria.get());
+		} else {
+			return null;
+		}
+
+		return this._repositorioProduto.save(produto);
+		}
+>>>>>>> 260e690d62dc5768b793fa5144f5859bc02c8e15
 
 	public Produto atualizar(Long id, Produto produto) {
 		verificarSeProdutoExiste(id);
@@ -44,16 +85,41 @@ public class ProdutoService {
 
 	}
 
+	public Produto atualizarCategoriaDoProduto(Long id, Produto produto, Long categoriaId) {
+		verificarSeProdutoExiste(id);
+
+		produto.setId(id);
+		
+		Optional<Categoria> categoria = _repositorioCategoria.findById(categoriaId);
+
+		if(categoria.isPresent()){
+			produto.setCategoriaId(categoria.get());
+		} else {
+			return null;
+		}
+
+		return this._repositorioProduto.save(produto);
+
+	}
+
+
 	public void apagar(Long id) {
 		verificarSeProdutoExiste(id);
 
 		this._repositorioProduto.deleteById(id);
 	}
 
+<<<<<<< HEAD
 	private void verificarSeProdutoEValido(Produto produto) {
 
 		if (produto.validarParaCadastro()) {
 			throw new ResourceBadRequestException("Campos obrigatórios ;-;");
+=======
+	private void verificarValorProduto(Produto produto){
+		if(!(produto.getPreco() * -1 < 0)){
+			throw new ResourceBadRequestException("Não é possivel cadastrar um produto com valor abaixo de 0.0");
+			
+>>>>>>> 260e690d62dc5768b793fa5144f5859bc02c8e15
 		}
 	}
 
@@ -65,4 +131,6 @@ public class ProdutoService {
 		}
 	}
 
+
+	
 }

@@ -2,8 +2,9 @@ package br.com.serratec.lojavirtual.controller;
 
 
 	import java.util.List;
+import java.util.Optional;
 
-	import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.web.bind.annotation.CrossOrigin;
 	import org.springframework.web.bind.annotation.DeleteMapping;
 	import org.springframework.web.bind.annotation.GetMapping;
@@ -35,12 +36,21 @@ import io.swagger.annotations.Api;
 			return this._clienteService.obter();
 		}
 		
+<<<<<<< HEAD
 		@ApiOperation(value = "Retorna uma lista de clientes por nome")
 		@GetMapping(value = "/nome/{nome}")
 		public List<Cliente> obter(@PathVariable(value = "nome") String nome) {
 			return this._clienteService.obter(nome);
 		}	
 		
+=======
+		@ApiOperation(value = "Obter Categoria por id")
+		@GetMapping("/{id}")
+		public Optional<Cliente> obterPorId(@PathVariable(value = "id") Long id){
+		return _clienteService.obterPorId(id);
+		}
+
+>>>>>>> 260e690d62dc5768b793fa5144f5859bc02c8e15
 		@ApiOperation(value = "Cadastra uma cliente")
 		@PostMapping
 		public Cliente adicionar(@RequestBody Cliente cliente) {

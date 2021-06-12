@@ -1,6 +1,7 @@
 package br.com.serratec.lojavirtual.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -29,6 +30,7 @@ public class CategoriaController {
 
 	@ApiOperation(value = "Retorna uma lista de categorias cadastradas")
 	@GetMapping
+<<<<<<< HEAD
 	public List<Categoria> obter() {
 		return this._categoriaService.obter();
 	}
@@ -37,6 +39,16 @@ public class CategoriaController {
 	@GetMapping(value = "/nome/{nome}")
 	public List<Categoria> obter(@PathVariable(value = "nome") String nome) {
 		return this._categoriaService.obter(nome);
+=======
+	public List<Categoria> obterTodos(){
+		return this._categoriaService.obterTodos();
+	}
+	
+	@ApiOperation(value = "Obter Categoria por id")
+	@GetMapping("/{id}")
+	public Optional<Categoria> obterPorId(@PathVariable(value = "id") Long id){
+		return _categoriaService.obterPorId(id);
+>>>>>>> 260e690d62dc5768b793fa5144f5859bc02c8e15
 	}
 
 	@ApiOperation(value = "Cadastra uma categoria")
