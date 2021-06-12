@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,21 +34,21 @@ public class ProdutoController {
 
 	@ApiOperation(value = "Retorna uma lista de produtos cadastrados")
 	@GetMapping
-	public List<Produto> obter(){
+	public ResponseEntity<List<Produto>> obterTodos(){
 		
-		return this._produtoService.obter();
+		return new ResponseEntity<>(this._produtoService.obterTodos(), HttpStatus.OK);
 	}
 	
 	@ApiOperation(value = "Retorna uma lista de produtos por nome")
 	@GetMapping(value = "/nome/{nome}")
-	public List<Produto> obter(@PathVariable(value = "nome") String nome) {
-		return this._produtoService.obter(nome);
+	public ResponseEntity<List<Produto>> obterPorNome(@PathVariable(value = "nome") String nome) {
+		return new ResponseEntity<>(this._produtoService.obterPorNome(nome), HttpStatus.OK);
 	}
 
-		@ApiOperation(value = "Obter Produto por id")
+	@ApiOperation(value = "Obter Produto por id")
 	@GetMapping("/{id}")
-	public Optional<Produto> obterPorId(@PathVariable(value = "id") Long id){
-		return _produtoService.obterPorId(id);
+	public ResponseEntity<Optional<Produto>> obterPorId(@PathVariable(value = "id") Long id){
+		return new ResponseEntity<>(_produtoService.obterPorId(id), HttpStatus.OK);
 	}
 
 	//#endregion
@@ -55,16 +57,16 @@ public class ProdutoController {
 
 	@ApiOperation(value = "Cadastra um produto")
 	@PostMapping
-	public Produto adicionar(@RequestBody Produto produto) {
+	public ResponseEntity<Produto> adicionar(@RequestBody Produto produto) {
 		
-		return this._produtoService.adicionar(produto);
+		return new ResponseEntity<>(this._produtoService.adicionar(produto), HttpStatus.CREATED);
 	}
 
 	@ApiOperation(value = "Cadastra um produto com uma categoria já existente")
 	@PostMapping("/{categoriaId}")
-	public Produto adicionarComCategoriaExistente(@RequestBody Produto produto, @PathVariable(value = "categoriaId") Long categoriaId) {
+	public ResponseEntity<Produto> adicionarComCategoriaExistente(@RequestBody Produto produto, @PathVariable(value = "categoriaId") Long categoriaId) {
 		
-		return this._produtoService.adicionarComCategoriaExistente(produto, categoriaId);
+		return new ResponseEntity<>(this._produtoService.adicionarComCategoriaExistente(produto, categoriaId), HttpStatus.CREATED);
 	}
 
 	//#endregion
@@ -73,16 +75,16 @@ public class ProdutoController {
 
 	@ApiOperation(value = "Atualiza um produto já existente")
 	@PutMapping(value = "/{id}")
-	public Produto atualizar(@PathVariable(value = "id")Long id, @RequestBody Produto produto) {
+	public ResponseEntity<Produto> atualizar(@PathVariable(value = "id")Long id, @RequestBody Produto produto) {
 		
-		return this._produtoService.atualizar(id, produto);
+		return new ResponseEntity<>(this._produtoService.atualizar(id, produto), HttpStatus.OK);
 	}
 	
 	@ApiOperation(value = "Atualiza a categoria de um produto já existente")
 	@PutMapping(value = "/{id}/categoria/{categoriaId}")
-	public Produto atualizar(@PathVariable(value = "id")Long id, @RequestBody Produto produto, @PathVariable(value = "categoriaId") Long categoriaId) {
+	public ResponseEntity<Produto> atualizar(@PathVariable(value = "id")Long id, @RequestBody Produto produto, @PathVariable(value = "categoriaId") Long categoriaId) {
 		
-		return this._produtoService.atualizarCategoriaDoProduto(id, produto, categoriaId);
+		return new ResponseEntity<>(this._produtoService.atualizarCategoriaDoProduto(id, produto, categoriaId), HttpStatus.OK);
 	}
 
 	//#endregion

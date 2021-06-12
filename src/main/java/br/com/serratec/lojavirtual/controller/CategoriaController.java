@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,41 +32,38 @@ public class CategoriaController {
 
 	@ApiOperation(value = "Retorna uma lista de categorias cadastradas")
 	@GetMapping
-	public List<Categoria> obter() {
-		return this._categoriaService.obterTodos();
+	public ResponseEntity<List<Categoria>> obterTodos() {
+		return new ResponseEntity<>(this._categoriaService.obterTodos(), HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "Retorna uma lista de categorias por nome")
 	@GetMapping(value = "/nome/{nome}")
-	public List<Categoria> obter(@PathVariable(value = "nome") String nome) {
-		return this._categoriaService.obter(nome);
+	public ResponseEntity<List<Categoria>> obterPorNome(@PathVariable(value = "nome") String nome) {
+
+		return new ResponseEntity<>(this._categoriaService.obterPorNome(nome), HttpStatus.OK);
 	}
-	
-	public List<Categoria> obterTodos(){
-		return this._categoriaService.obterTodos();
-	}
-	
+		
 	@ApiOperation(value = "Obter Categoria por id")
 	@GetMapping("/{id}")
-	public Optional<Categoria> obterPorId(@PathVariable(value = "id") Long id){
-		return _categoriaService.obterPorId(id);
+	public ResponseEntity<Optional<Categoria>> obterPorId(@PathVariable(value = "id") Long id){
+		return new ResponseEntity<>(_categoriaService.obterPorId(id), HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "Cadastra uma categoria")
 	@PostMapping
-	public Categoria adicionar(@RequestBody Categoria categoria) {
-		return this._categoriaService.adicionar(categoria);
+	public ResponseEntity<Categoria> adicionar(@RequestBody Categoria categoria) {
+		return new ResponseEntity<>(this._categoriaService.adicionar(categoria), HttpStatus.CREATED);
 	}
 
 	@ApiOperation(value = "Atualiza uma categoria já existente")
 	@PutMapping(value = "/{id}")
-	public Categoria atualizar(@PathVariable(value = "id") Long id, @RequestBody Categoria categoria) {
-		return this._categoriaService.atualizar(id, categoria);
+	public ResponseEntity<Categoria> atualizar(@PathVariable(value = "id") Long id, @RequestBody Categoria categoria) {
+		return new ResponseEntity<>(this._categoriaService.atualizar(id, categoria), HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "Deleta uma categotia exitente")
 	@DeleteMapping(value = "/{id}")
-	public void apagar(@PathVariable(value = "id") Long id) {
-		this._categoriaService.apagar(id);
+	public void deletar(@PathVariable(value = "id") Long id) {
+		this._categoriaService.deletar(id);
 	}
 }
