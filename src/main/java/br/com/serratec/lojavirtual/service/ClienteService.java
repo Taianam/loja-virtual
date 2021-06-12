@@ -34,6 +34,16 @@ public class ClienteService {
 		return this._repositorioCliente.findAll();
 	}
 
+	public Optional<Cliente> obterPorId(Long id) {
+		Optional<Cliente> Cliente = this._repositorioCliente.findById(id);
+		
+		if(Cliente.isEmpty()) {
+			
+			throw new ResourceNotFoundException("Não foi encontrado nenhum Cliente para o id: " + id);
+		}
+		return Cliente;
+	}
+
 	public Cliente adicionar(Cliente cliente){
 		
 		cliente.setId(null);

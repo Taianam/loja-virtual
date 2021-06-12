@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -24,7 +25,11 @@ public class Produto {
 	private String descricao;
 	private Double preco;
 	private Integer estoque;
+
+	// @Lob
+	// @Column(name="BOOK_IMAGE", nullable=false, columnDefinition="mediumblob")	
 	private String imagem;
+
 	private LocalDate dataDeCadastro;
 
 	@ManyToOne()
@@ -114,7 +119,7 @@ public class Produto {
 
 	//#endregion
 
-	public boolean validarParaCadastro(){
-		return (!this.nome.isEmpty() && !this.descricao.isEmpty() && !this.preco.equals(null) && !this.estoque.equals(null));
-	}
+	// public boolean validarParaCadastro(){
+	// 	return (!this.nome.isEmpty() && !this.descricao.isEmpty() && !this.preco.equals(null) && !this.estoque.equals(null));
+	// }
 }
