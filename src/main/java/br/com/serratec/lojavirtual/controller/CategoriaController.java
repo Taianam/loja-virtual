@@ -26,28 +26,33 @@ public class CategoriaController {
 
 	@Autowired
 	CategoriaService _categoriaService;
-	
-	
+
 	@ApiOperation(value = "Retorna uma lista de categorias cadastradas")
 	@GetMapping
-	public List<Categoria> obter(){
+	public List<Categoria> obter() {
 		return this._categoriaService.obter();
 	}
-	
+
+	@ApiOperation(value = "Retorna uma lista de categorias por nome")
+	@GetMapping(value = "/nome/{nome}")
+	public List<Categoria> obter(@PathVariable(value = "nome") String nome) {
+		return this._categoriaService.obter(nome);
+	}
+
 	@ApiOperation(value = "Cadastra uma categoria")
 	@PostMapping
 	public Categoria adicionar(@RequestBody Categoria categoria) {
 		return this._categoriaService.adicionar(categoria);
 	}
-	
+
 	@ApiOperation(value = "Atualiza uma categoria já existente")
 	@PutMapping(value = "/{id}")
-	public Categoria atualizar(@PathVariable(value = "id")Long id, @RequestBody Categoria categoria) {
+	public Categoria atualizar(@PathVariable(value = "id") Long id, @RequestBody Categoria categoria) {
 		return this._categoriaService.atualizar(id, categoria);
 	}
-	
+
 	@ApiOperation(value = "Deleta uma categotia exitente")
-	@DeleteMapping (value = "/{id}")
+	@DeleteMapping(value = "/{id}")
 	public void apagar(@PathVariable(value = "id") Long id) {
 		this._categoriaService.apagar(id);
 	}

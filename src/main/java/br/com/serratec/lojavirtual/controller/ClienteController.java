@@ -35,6 +35,12 @@ import io.swagger.annotations.Api;
 			return this._clienteService.obter();
 		}
 		
+		@ApiOperation(value = "Retorna uma lista de clientes por nome")
+		@GetMapping(value = "/nome/{nome}")
+		public List<Cliente> obter(@PathVariable(value = "nome") String nome) {
+			return this._clienteService.obter(nome);
+		}	
+		
 		@ApiOperation(value = "Cadastra uma cliente")
 		@PostMapping
 		public Cliente adicionar(@RequestBody Cliente cliente) {

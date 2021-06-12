@@ -13,7 +13,7 @@ import br.com.serratec.lojavirtual.repository.ProdutoRepository;
 
 @Service
 public class ProdutoService {
-	
+
 	@Autowired
 	ProdutoRepository _repositorioProduto;
 
@@ -21,17 +21,25 @@ public class ProdutoService {
 		return this._repositorioProduto.findAll();
 	}
 
+	public List<Produto> obter(String nome) {
+		List<Produto> produtos = _repositorioProduto.findByNomeContaining(nome);
+		if (produtos.isEmpty()) {
+			throw new ResourceNotFoundException("Produto não existente :(");
+		}
+		return produtos;
+	}
+
 	public Produto adicionar(Produto produto) {
 		produto.setId(null);
 		verificarSeProdutoEValido(produto);
-		
+
 		return this._repositorioProduto.save(produto);
 	}
-	
+
 	public Produto atualizar(Long id, Produto produto) {
 		verificarSeProdutoExiste(id);
 		produto.setId(id);
-		
+
 		return this._repositorioProduto.save(produto);
 
 	}
@@ -42,7 +50,6 @@ public class ProdutoService {
 		this._repositorioProduto.deleteById(id);
 	}
 
-	// /!\ Alterar exception /!\
 	private void verificarSeProdutoEValido(Produto produto) {
 
 		if (produto.validarParaCadastro()) {
@@ -50,7 +57,6 @@ public class ProdutoService {
 		}
 	}
 
-	// /!\ Alterar exception /!\
 	private void verificarSeProdutoExiste(Long id) {
 		Optional<Produto> produto = this._repositorioProduto.findById(id);
 

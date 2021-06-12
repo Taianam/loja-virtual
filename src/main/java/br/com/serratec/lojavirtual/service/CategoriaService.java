@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.serratec.lojavirtual.exception.ResourceBadRequestException;
 import br.com.serratec.lojavirtual.exception.ResourceNotFoundException;
 import br.com.serratec.lojavirtual.model.produto_pedido.Categoria;
 import br.com.serratec.lojavirtual.repository.CategoriaRepository;
@@ -23,14 +24,22 @@ public class CategoriaService {
 	public Categoria adicionar(Categoria categoria) {
 		categoria.setId(null);
 		verificarSeCategoriaEValida(categoria);
-		
+
 		return this._repositorioCategoria.save(categoria);
 	}
-	
+
+	public List<Categoria> obter(String nome) {
+		List<Categoria> categorias = _repositorioCategoria.findByNomeContaining(nome);
+		if (categorias.isEmpty()) {
+			throw new ResourceNotFoundException("Categoria não encontrada :(");
+		}
+		return categorias;
+	}
+
 	public Categoria atualizar(Long id, Categoria categoria) {
 		verificarSeCategoriaExiste(id);
 		categoria.setId(id);
-		
+
 		return this._repositorioCategoria.save(categoria);
 
 	}
@@ -46,7 +55,7 @@ public class CategoriaService {
 
 		if (categoria.getNome() == null || categoria.getNome() == "" || categoria.getDescricao() == null
 				|| categoria.getDescricao() == "") {
-			throw new RuntimeException();
+			throw new ResourceBadRequestException();
 		}
 	}
 

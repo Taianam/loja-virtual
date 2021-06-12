@@ -14,26 +14,21 @@ public class CepService {
 
 	@Autowired
 	private WebClient cepWebClient;
-	
+
 	public EnderecoViaCep obterEnderecoPorCep(String cep) {
-		
-			try {
-			Mono<EnderecoViaCep> monoEndereco = this.cepWebClient
-				.method(HttpMethod.GET) 
-				.uri("http://viacep.com.br/ws/{cep}/json", cep)
-				.retrieve() 
-				.bodyToMono(EnderecoViaCep.class); 
-			var endereco = monoEndereco.block(); 
-			
+
+		try {
+			Mono<EnderecoViaCep> monoEndereco = this.cepWebClient.method(HttpMethod.GET)
+					.uri("http://viacep.com.br/ws/{cep}/json", cep).retrieve().bodyToMono(EnderecoViaCep.class);
+			var endereco = monoEndereco.block();
+
 			return endereco;
-			
-		 } catch (Exception e) {
-		 	throw new ResourceBadRequestException("CEP invalido!");
-		
-	}
+
+		} catch (Exception e) {
+			throw new ResourceBadRequestException("CEP invalido!");
+
+		}
 
 	}
-	
-	
-	
+
 }

@@ -34,6 +34,13 @@ public class ProdutoController {
 		return this._produtoService.obter();
 	}
 	
+	@ApiOperation(value = "Retorna uma lista de produtos por nome")
+	@GetMapping(value = "/nome/{nome}")
+	public List<Produto> obter(@PathVariable(value = "nome") String nome) {
+		return this._produtoService.obter(nome);
+	}
+
+	
 	@ApiOperation(value = "Cadastra um produto")
 	@PostMapping
 	public Produto adicionar(@RequestBody Produto produto) {

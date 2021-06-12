@@ -34,22 +34,28 @@ public class ClienteService {
 		return this._repositorioCliente.findAll();
 	}
 
-	public Cliente adicionar(Cliente cliente){
-		
+	public List<Cliente> obter(String nome) {
+		List<Cliente> clientes = _repositorioCliente.findByNomeContaining(nome);
+		if (clientes.isEmpty()) {
+			throw new ResourceNotFoundException("Cliente não encontrada :(");
+		}
+		return clientes;
+	}
+
+	public Cliente adicionar(Cliente cliente) {
+
 		cliente.setId(null);
 		verificarSeEmailExiste(cliente.getEmail());
 		validarCPF(cliente.getCpf());
 		ligarViaCepComEdereco(cliente.getEndereco());
-		
+
 		try {
 			this._repositorioCliente.save(cliente);
-		}
-		catch (Exception e){
+		} catch (Exception e) {
 
 			throw new ResourceBadRequestException("Campo obrigatorio :(");
 
-		} 
-		
+		}
 
 		var mensagem = "<!DOCTYPE html><html lang=pt-BR><head><meta charset=UTF-8><meta http-equiv=X-UA-Compatible content=\\\"IE=edge\\\"><meta name=viewport content=\\\"width=device-width, initial-scale=1.0\\\"><title>Email</title><body style=background-color:#8abee6><div style=color:white;text-align:center><h1>Bem vindo, %s !</h1><h2>Parabéns! Seu cadastro foi realizado com sucesso!</h2></div><div style=text-align:center><img style=width:400px src=https://www.ecommerceworld.com.br/wp-content/uploads/2015/12/loja-virtual-e-commerce.png alt=eComerce></div><h2 style=color:white;text-align:center>A Familia Dev-HQs, agradece a sua preferencia!<br>Boas Compras!</h2>";
 		mensagem = String.format(mensagem, cliente.getNome());
@@ -65,19 +71,17 @@ public class ClienteService {
 		verificarSeClienteExiste(id);
 		validarCPF(cliente.getCpf());
 		ligarViaCepComEdereco(cliente.getEndereco());
-		
+
 		try {
 			this._repositorioCliente.save(cliente);
-		}
-		catch (Exception e){
+		} catch (Exception e) {
 
 			throw new ResourceBadRequestException("Campo obrigatorio :(");
 
-		} 
+		}
 		return cliente;
 	}
 
-	
 	public void apagar(Long id) {
 
 		verificarSeClienteExiste(id);
@@ -92,28 +96,28 @@ public class ClienteService {
 			throw new ResourceNotFoundException("Cliente não encontrada :(");
 		}
 	}
-	
-	public void validarCPF(String cpf){ 
-			try {
-	    	 CPFValidator cpfValidado = new CPFValidator(); 
-	    	 cpfValidado.assertValid(cpf);	
-	    	 
-			} catch (InvalidStateException e) { 
 
-	 		throw new ResourceBadRequestException("CPF invalido!");
+	public void validarCPF(String cpf) {
+		try {
+			CPFValidator cpfValidado = new CPFValidator();
+			cpfValidado.assertValid(cpf);
 
-	 		} 
+		} catch (InvalidStateException e) {
+
+			throw new ResourceBadRequestException("CPF invalido!");
+
+		}
 	}
-	
+
 	public void ligarViaCepComEdereco(Endereco endereco) {
-			EnderecoViaCep enderecoCompletado = servicoCep.obterEnderecoPorCep(endereco.getCep());
-			endereco.setRua(enderecoCompletado.getLogradouro());
-			endereco.setComplemento(enderecoCompletado.getComplemento());
-			endereco.setBairro(enderecoCompletado.getBairro());
-			endereco.setCidade(enderecoCompletado.getLocalidade());
-			endereco.setEstado(enderecoCompletado.getUf());		
+		EnderecoViaCep enderecoCompletado = servicoCep.obterEnderecoPorCep(endereco.getCep());
+		endereco.setRua(enderecoCompletado.getLogradouro());
+		endereco.setComplemento(enderecoCompletado.getComplemento());
+		endereco.setBairro(enderecoCompletado.getBairro());
+		endereco.setCidade(enderecoCompletado.getLocalidade());
+		endereco.setEstado(enderecoCompletado.getUf());
 	}
-	
+
 	private void verificarSeEmailExiste(String email) {
 		Optional<Cliente> clienteEmail = this._repositorioCliente.findByEmail(email);
 		if (!clienteEmail.isEmpty()) {
