@@ -1,6 +1,5 @@
 package br.com.serratec.lojavirtual.service;
 
-import java.sql.PreparedStatement;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,11 +22,21 @@ public class ProdutoService {
 	@Autowired
 	CategoriaRepository _repositorioCategoria;
 
-	public List<Produto> obter() {
+	public List<Produto> obterTodos() {
 		return this._repositorioProduto.findAll();
 	}
 
-	public List<Produto> obter(String nome) {
+	public Optional<Produto> obterPorId(Long id) {
+		Optional<Produto> Produto = this._repositorioProduto.findById(id);
+		
+		if(Produto.isEmpty()) {
+			
+			throw new ResourceNotFoundException("Não foi encontrado nenhuma Produto para o id: " + id);
+		}
+		return Produto;
+	}
+
+	public List<Produto> obterPorNome(String nome) {
 		List<Produto> produtos = _repositorioProduto.findByNomeContaining(nome);
 		if (produtos.isEmpty()) {
 			throw new ResourceNotFoundException("Produto não existente :(");
@@ -42,21 +51,9 @@ public class ProdutoService {
 		return this._repositorioProduto.save(produto);
 	}
 
-	public Optional<Produto> obterPorId(Long id) {
-		Optional<Produto> Produto = this._repositorioProduto.findById(id);
-		
-		if(Produto.isEmpty()) {
-			
-			throw new ResourceNotFoundException("Não foi encontrado nenhuma Produto para o id: " + id);
-		}
-		return Produto;
-	}
-	
 	
 	public Produto adicionarComCategoriaExistente(Produto produto, Long categoriaId) {
-		
-		// verificarSeProdutoEValido(produto);
-			
+					
 		Optional<Categoria> categoria = _repositorioCategoria.findById(categoriaId);
 		
 		verificarValorProduto(produto);
@@ -71,6 +68,7 @@ public class ProdutoService {
 		}
 
 	public Produto atualizar(Long id, Produto produto) {
+
 		verificarSeProdutoExiste(id);
 		verificarValorProduto(produto);
 		produto.setId(id);
@@ -80,6 +78,7 @@ public class ProdutoService {
 	}
 
 	public Produto atualizarCategoriaDoProduto(Long id, Produto produto, Long categoriaId) {
+
 		verificarSeProdutoExiste(id);
 
 		produto.setId(id);
@@ -96,13 +95,13 @@ public class ProdutoService {
 
 	}
 
-
 	public void apagar(Long id) {
 		verificarSeProdutoExiste(id);
 
 		this._repositorioProduto.deleteById(id);
 	}
 
+	//#region Métodos
 
 	private void verificarValorProduto(Produto produto){
 		if(!(produto.getPreco() * -1 < 0)){
@@ -119,6 +118,6 @@ public class ProdutoService {
 		}
 	}
 
-
+	//#endregion
 	
 }

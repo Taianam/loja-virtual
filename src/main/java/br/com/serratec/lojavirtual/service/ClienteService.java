@@ -30,18 +30,9 @@ public class ClienteService {
 	@Autowired
 	private CepService servicoCep;
 
-	public List<Cliente> obter() {
+	public List<Cliente> obterTodos() {
 		return this._repositorioCliente.findAll();
 	}
-
-	public List<Cliente> obter(String nome) {
-		List<Cliente> clientes = _repositorioCliente.findByNomeContaining(nome);
-		if (clientes.isEmpty()) {
-			throw new ResourceNotFoundException("Cliente não encontrada :(");
-		}
-		return clientes;
-	}
-
 
 	public Optional<Cliente> obterPorId(Long id) {
 		Optional<Cliente> Cliente = this._repositorioCliente.findById(id);
@@ -53,7 +44,18 @@ public class ClienteService {
 		return Cliente;
 	}
 
-	public Cliente adicionar(Cliente cliente){
+
+	public List<Cliente> obterPorNome(String nome) {
+		List<Cliente> clientes = _repositorioCliente.findByNomeContaining(nome);
+		if (clientes.isEmpty()) {
+			throw new ResourceNotFoundException("Cliente não encontrada :(");
+		}
+		return clientes;
+	}
+
+
+	
+	public Cliente cadastrar(Cliente cliente){
 		
 		cliente.setId(null);
 		verificarSeEmailExiste(cliente.getEmail());
@@ -101,7 +103,7 @@ public class ClienteService {
 		return cliente;
 	}
 
-	public void apagar(Long id) {
+	public void deletar(Long id) {
 
 		verificarSeClienteExiste(id);
 		this._repositorioCliente.deleteById(id);

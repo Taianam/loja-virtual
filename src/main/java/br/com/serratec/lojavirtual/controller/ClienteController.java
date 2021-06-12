@@ -5,7 +5,9 @@ package br.com.serratec.lojavirtual.controller;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-	import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 	import org.springframework.web.bind.annotation.DeleteMapping;
 	import org.springframework.web.bind.annotation.GetMapping;
 	import org.springframework.web.bind.annotation.PathVariable;
@@ -32,38 +34,38 @@ import io.swagger.annotations.Api;
 		
 		@ApiOperation(value = "Retorna uma lista de clientes cadastradas")
 		@GetMapping
-		public List<Cliente> obter(){
-			return this._clienteService.obter();
+		public ResponseEntity<List<Cliente>> obterTodos(){
+			return new ResponseEntity<>(this._clienteService.obterTodos(), HttpStatus.OK);
 		}
 		
+		@ApiOperation(value = "Obter Categoria por id")
+		@GetMapping("/{id}")
+		public ResponseEntity<Optional<Cliente>> obterPorId(@PathVariable(value = "id") Long id){
+		return new ResponseEntity<>(_clienteService.obterPorId(id), HttpStatus.OK);
+		}
+
 		@ApiOperation(value = "Retorna uma lista de clientes por nome")
 		@GetMapping(value = "/nome/{nome}")
-		public List<Cliente> obter(@PathVariable(value = "nome") String nome) {
-			return this._clienteService.obter(nome);
+		public ResponseEntity<List<Cliente>> obterPorNome(@PathVariable(value = "nome") String nome) {
+			return new ResponseEntity<>( this._clienteService.obterPorNome(nome), HttpStatus.OK);
 		}	
 		
 
-		@ApiOperation(value = "Obter Categoria por id")
-		@GetMapping("/{id}")
-		public Optional<Cliente> obterPorId(@PathVariable(value = "id") Long id){
-		return _clienteService.obterPorId(id);
-		}
-
 		@ApiOperation(value = "Cadastra uma cliente")
 		@PostMapping
-		public Cliente adicionar(@RequestBody Cliente cliente) {
-			return this._clienteService.adicionar(cliente);
+		public ResponseEntity<Cliente> cadastrar(@RequestBody Cliente cliente) {
+			return new ResponseEntity<>(this._clienteService.cadastrar(cliente), HttpStatus.CREATED);
 		}
 		
 		@ApiOperation(value = "Atualiza um cliente já existente")
 		@PutMapping(value = "/{id}")
-		public Cliente atualizar(@PathVariable(value = "id")Long id, @RequestBody Cliente cliente) {
-			return this._clienteService.atualizar(id, cliente);
+		public ResponseEntity<Cliente> atualizar(@PathVariable(value = "id")Long id, @RequestBody Cliente cliente) {
+			return new ResponseEntity<>(this._clienteService.atualizar(id, cliente), HttpStatus.OK);
 		}
 		
 		@ApiOperation(value = "Deleta um cliente exitente")
 		@DeleteMapping (value = "/{id}")
-		public void apagar(@PathVariable(value = "id") Long id) {
-			this._clienteService.apagar(id);
+		public void deletar(@PathVariable(value = "id") Long id) {
+			this._clienteService.deletar(id);
 		}
 	}

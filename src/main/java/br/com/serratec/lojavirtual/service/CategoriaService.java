@@ -31,19 +31,19 @@ public class CategoriaService {
 		return Categoria;
 	}
 
-	public Categoria adicionar(Categoria categoria) {
-		categoria.setId(null);
-		verificarSeCategoriaEValida(categoria);
-
-		return this._repositorioCategoria.save(categoria);
-	}
-
-	public List<Categoria> obter(String nome) {
+	public List<Categoria> obterPorNome(String nome) {
 		List<Categoria> categorias = _repositorioCategoria.findByNomeContaining(nome);
 		if (categorias.isEmpty()) {
 			throw new ResourceNotFoundException("Categoria não encontrada :(");
 		}
 		return categorias;
+	}
+
+	public Categoria adicionar(Categoria categoria) {
+		categoria.setId(null);
+		verificarSeCategoriaEValida(categoria);
+
+		return this._repositorioCategoria.save(categoria);
 	}
 
 	public Categoria atualizar(Long id, Categoria categoria) {
@@ -54,7 +54,7 @@ public class CategoriaService {
 
 	}
 
-	public void apagar(Long id) {
+	public void deletar(Long id) {
 		verificarSeCategoriaExiste(id);
 
 		this._repositorioCategoria.deleteById(id);
