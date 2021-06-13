@@ -61,7 +61,7 @@ public class ProdutoService {
 		if (categoria.isPresent()) {
 			produto.setCategoriaId(categoria.get());
 		} else {
-			return null;
+			throw new ResourceBadRequestException("Categoria invalida.");
 		}
 
 		return this._repositorioProduto.save(produto);
