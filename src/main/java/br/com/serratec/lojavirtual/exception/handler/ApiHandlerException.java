@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import br.com.serratec.lojavirtual.error.ErrorMessage;
+import br.com.serratec.lojavirtual.exception.ResourceAuthorizationRequestException;
 import br.com.serratec.lojavirtual.exception.ResourceBadRequestException;
+import br.com.serratec.lojavirtual.exception.ResourceForBiddenException;
 import br.com.serratec.lojavirtual.exception.ResourceNotFoundException;
 
 @ControllerAdvice
@@ -37,6 +39,32 @@ public class ApiHandlerException {
             new Date().getTime());
 
         return new ResponseEntity<>(errorrMessage, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ResourceAuthorizationRequestException.class)
+    public ResponseEntity<?> handlerResourceAuthorizationRequestException(ResourceAuthorizationRequestException exception){
+
+        ErrorMessage errorrMessage = new ErrorMessage(
+            "Unauthorized",
+            HttpStatus.UNAUTHORIZED.value(),
+            exception.getMessage(),
+            exception.getClass().getName(),
+            new Date().getTime());
+
+        return new ResponseEntity<>(errorrMessage, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(ResourceForBiddenException.class)
+    public ResponseEntity<?> handlerResourceForBiddenException(ResourceForBiddenException exception){
+
+        ErrorMessage errorrMessage = new ErrorMessage(
+            "ForBidden",
+            HttpStatus.FORBIDDEN.value(),
+            exception.getMessage(),
+            exception.getClass().getName(),
+            new Date().getTime());
+
+        return new ResponseEntity<>(errorrMessage, HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(Exception.class)
