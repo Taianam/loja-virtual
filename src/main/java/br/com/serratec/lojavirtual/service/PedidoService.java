@@ -68,6 +68,10 @@ public class PedidoService {
         
         enviarEmail(pedido.getStatus(), pedido);
         
+        if(pedido.getListaDeProdutos().size() == 0) {
+        	throw new ResourceBadRequestException("Impossivel finalizar o pedido :(");
+        }
+        
         return _pedidoRepository.save(pedido);
     }
 

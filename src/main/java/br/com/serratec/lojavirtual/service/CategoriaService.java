@@ -23,9 +23,9 @@ public class CategoriaService {
 
 	public Optional<Categoria> obterPorId(Long id) {
 		Optional<Categoria> Categoria = this._repositorioCategoria.findById(id);
-		
-		if(Categoria.isEmpty()) {
-			
+
+		if (Categoria.isEmpty()) {
+
 			throw new ResourceNotFoundException("Não foi encontrado nenhuma Categoria para o id: " + id);
 		}
 		return Categoria;
@@ -48,6 +48,7 @@ public class CategoriaService {
 
 	public Categoria atualizar(Long id, Categoria categoria) {
 		verificarSeCategoriaExiste(id);
+		verificarSeCategoriaEValida(categoria);
 		categoria.setId(id);
 
 		return this._repositorioCategoria.save(categoria);
@@ -60,16 +61,13 @@ public class CategoriaService {
 		this._repositorioCategoria.deleteById(id);
 	}
 
-	// /!\ Alterar exception /!\
 	private void verificarSeCategoriaEValida(Categoria categoria) {
 
-		if (categoria.getNome() == null || categoria.getNome() == "" || categoria.getDescricao() == null
-				|| categoria.getDescricao() == "") {
+		if (categoria.getNome() == null || categoria.getNome() == "" ) {
 			throw new ResourceBadRequestException();
 		}
 	}
 
-	// /!\ Alterar exception /!\
 	private void verificarSeCategoriaExiste(Long id) {
 		Optional<Categoria> categoria = this._repositorioCategoria.findById(id);
 
