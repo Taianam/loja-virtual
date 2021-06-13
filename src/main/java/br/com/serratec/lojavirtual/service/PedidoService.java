@@ -95,7 +95,16 @@ public class PedidoService {
         enviarEmail(pedido.getStatus(), pedido);
         
         return _pedidoRepository.save(pedido);
+<<<<<<< HEAD
 
+=======
+    }
+
+    public void atualizar(Long id, PedidoRequest pedidoRequest){
+        verificarSePedidoExiste(id);
+
+        
+>>>>>>> e19377b1ed08c4f36b599a043e7625150ae76a42
     }
 
     public String deletar(Long id, LoginRequest login) {

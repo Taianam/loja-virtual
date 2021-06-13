@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -41,8 +42,8 @@ public class PedidoController {
         return new ResponseEntity<>(_servicePedidos.adicionarProdutos(pedidoRequest, clienteId), HttpStatus.CREATED);
     }
     
-    @ApiOperation("Criar um novo pedido")
-    @PostMapping("/{id}")
+    @ApiOperation("Editar um pedido")
+    @PatchMapping("/{id}")
     public ResponseEntity<Pedidos> atualizarPedido(@RequestBody PedidoRequest pedidoRequest, @PathVariable(value = "id") Long id){
         return new ResponseEntity<>(_servicePedidos.atualizar(pedidoRequest, id), HttpStatus.CREATED);
     }
