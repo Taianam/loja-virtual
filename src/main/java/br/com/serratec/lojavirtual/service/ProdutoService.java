@@ -37,7 +37,7 @@ public class ProdutoService {
 	}
 
 	public List<Produto> obterPorNome(String nome) {
-		List<Produto> produtos = _repositorioProduto.findByNomeContaining(nome);
+		List<Produto> produtos = _repositorioProduto.findByNomeContainingIgnoreCase(nome);
 		if (produtos.isEmpty()) {
 			throw new ResourceNotFoundException("Produto não existente :(");
 		}

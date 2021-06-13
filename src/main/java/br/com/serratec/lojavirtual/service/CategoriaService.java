@@ -32,7 +32,7 @@ public class CategoriaService {
 	}
 
 	public List<Categoria> obterPorNome(String nome) {
-		List<Categoria> categorias = _repositorioCategoria.findByNomeContaining(nome);
+		List<Categoria> categorias = _repositorioCategoria.findByNomeContainingIgnoreCase(nome);
 		if (categorias.isEmpty()) {
 			throw new ResourceNotFoundException("Categoria não encontrada :(");
 		}

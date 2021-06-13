@@ -46,7 +46,7 @@ public class ClienteService {
 
 
 	public List<Cliente> obterPorNome(String nome) {
-		List<Cliente> clientes = _repositorioCliente.findByNomeContaining(nome);
+		List<Cliente> clientes = _repositorioCliente.findByNomeContainingIgnoreCase(nome);
 		if (clientes.isEmpty()) {
 			throw new ResourceNotFoundException("Cliente não encontrada :(");
 		}

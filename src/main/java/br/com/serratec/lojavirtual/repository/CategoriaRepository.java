@@ -11,5 +11,5 @@ import br.com.serratec.lojavirtual.model.produto_pedido.Categoria;
 public interface CategoriaRepository extends JpaRepository<Categoria, Long>{
 
 	Optional<Categoria> findById(Long id);
-	List<Categoria> findByNomeContaining(String nome);
+	List<Categoria> findByNomeContainingIgnoreCase(String nome);
 }
