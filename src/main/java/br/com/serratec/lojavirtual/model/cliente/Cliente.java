@@ -22,7 +22,7 @@ import br.com.serratec.lojavirtual.model.produto_pedido.Pedidos;
 public class Cliente {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gerator_cliente")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "generator_cliente")
 	private Long id;
 	
 	@Column(unique = true)

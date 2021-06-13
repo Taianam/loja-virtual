@@ -3,7 +3,6 @@ package br.com.serratec.lojavirtual.model.produto_pedido;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -14,18 +13,19 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.SequenceGenerator;
 
 import br.com.serratec.lojavirtual.exception.ResourceBadRequestException;
 import br.com.serratec.lojavirtual.model.cliente.Cliente;
 
 @Entity
-@Table(name = "pedidos")
+@SequenceGenerator(name = "generator_idPedido", sequenceName = "sequence_idPedido", initialValue = 1, allocationSize = 1)
 public class Pedidos {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "generator_idPedido")
 	private Long id;
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Integer numeroDoPedido;
 	private Double valorTotalDoPedido = 0.0;
 	private LocalDate dataDoPedido;

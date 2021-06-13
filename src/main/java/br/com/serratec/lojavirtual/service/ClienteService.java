@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import br.com.caelum.stella.validation.CPFValidator;
 import br.com.caelum.stella.validation.InvalidStateException;
+import br.com.serratec.lojavirtual.dto.AtualizarCliente;
+import br.com.serratec.lojavirtual.dto.LoginRequest;
 import br.com.serratec.lojavirtual.exception.ResourceBadRequestException;
 import br.com.serratec.lojavirtual.exception.ResourceNotFoundException;
 import br.com.serratec.lojavirtual.model.cliente.Cliente;
@@ -81,43 +83,48 @@ public class ClienteService {
 		+ "agradece a sua preferencia!<br>Boas Compras!</h2>";		
 		mensagem = String.format(mensagem, cliente.getNome());
 		
-		var email = new MenssagemEmail("Cadastro realizado com sucesso!", mensagem, cliente.getEmail(), Arrays.asList(cliente.getEmail()));
+		var email = new MenssagemEmail("Cadastro realizado com sucesso!", mensagem, Arrays.asList(cliente.getEmail()));
 		mailler.enviar(email);
 
 		return cliente;
 	}
 
-	public Cliente atualizar(Long id, Cliente cliente) {
-
-		verificarSeClienteExiste(id);
-		cliente.verificarCPF(cliente);
-		validarCPF(cliente.getCpf());
-		ligarViaCepComEdereco(cliente.getEndereco());
-
-		deletar(id);
-		// try {
-		this._repositorioCliente.save(cliente);
-		// } catch (Exception e) {
-
-		// 	throw new ResourceBadRequestException("Campo obrigatorio :(");
-
-		// }
-		return cliente;
-	}
-
-	public void deletar(Long id) {
-
-		verificarSeClienteExiste(id);
+	public Cliente atualizar(Long id, AtualizarCliente atualizar) {
+	
+		Cliente clienteAtualizado = verificarSeClienteExiste(id).get();
+		
+		if (!atualizar.getCpf().equals("")){
+			throw new ResourceBadRequestException("Infelizmente não é possivel auterar seu cpf");
+		}else if (!atualizar.getSenha().equals(clienteAtualizado.getSenha())) {
+			throw new ResourceNotFoundException("Usuario não encontrado!");
+		}
+		clienteAtualizado.setId(id);
+		ligarViaCepComEdereco(atualizar.getEndereco());
+		clienteAtualizado.setDataDeNascimento(atualizar.getDataDeNascimento());
+		clienteAtualizado.setEmail(atualizar.getNovoEmail());
+		clienteAtualizado.setSenha(atualizar.getNovaSenha());
+		clienteAtualizado.setNome(atualizar.getNome());
+		clienteAtualizado.setTelefone(atualizar.getTelefone());
+		return clienteAtualizado;	
+	}		
+	
+	public String  deletar(Long id, LoginRequest login) {
+		Cliente cliente = verificarSeClienteExiste(id).get();
+		if(!login.getEmail().equals(cliente.getEmail()) &&  !login.getSenha().equals(cliente.getSenha())){
+			throw new ResourceBadRequestException("Dados invalidos!");
+		}
 		this._repositorioCliente.deleteById(id);
+		return "Cliente deletado";
 	}
-
+	
 	// METODOS DE VERIFICAÇÃO/VALIDALÇAO
-	private void verificarSeClienteExiste(Long id) {
+	private Optional<Cliente>  verificarSeClienteExiste(Long id) {
 		Optional<Cliente> cliente = this._repositorioCliente.findById(id);
 
 		if (cliente.isEmpty()) {
 			throw new ResourceNotFoundException("Cliente não encontrada :(");
 		}
+		return cliente;
 	}
 
 	public void validarCPF(String cpf) {

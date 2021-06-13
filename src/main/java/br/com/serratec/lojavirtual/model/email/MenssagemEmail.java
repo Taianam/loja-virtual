@@ -6,13 +6,11 @@ public class MenssagemEmail {
 	
 	private String assunto;
 	private String corpo;
-	private String remetente;
 	private List<String> destinatarios;
 		
-	public MenssagemEmail(String assunto, String corpo, String remetente, List<String> destinatarios) {
+	public MenssagemEmail(String assunto, String corpo, List<String> destinatarios) {
 		this.assunto = assunto;
 		this.corpo = corpo;
-		this.remetente = remetente;
 		this.destinatarios = destinatarios;
 	}
 
@@ -30,14 +28,6 @@ public class MenssagemEmail {
 	
 	public void setCorpo(String corpo) {
 		this.corpo = corpo;
-	}
-	
-	public String getRemetente() {
-		return remetente;
-	}
-	
-	public void setRemetente(String remetente) {
-		this.remetente = remetente;
 	}
 	
 	public List<String> getDestinatarios() {

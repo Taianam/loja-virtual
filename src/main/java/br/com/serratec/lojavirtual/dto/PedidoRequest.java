@@ -1,4 +1,4 @@
-package br.com.serratec.lojavirtual.controller;
+package br.com.serratec.lojavirtual.dto;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -7,7 +7,7 @@ public class PedidoRequest {
     
     private Integer numeroDoPedido;
 	private LocalDate dataDoPedido;
-	private Boolean status;
+	private String status;
 
     private List<Long> produtosId;
 
@@ -27,11 +27,11 @@ public class PedidoRequest {
         this.dataDoPedido = dataDoPedido;
     }
 
-    public Boolean getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(Boolean status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 

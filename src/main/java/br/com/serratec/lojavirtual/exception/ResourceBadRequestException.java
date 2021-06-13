@@ -6,7 +6,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(code = HttpStatus.BAD_REQUEST)
 public class ResourceBadRequestException extends RuntimeException{
     
-    public ResourceBadRequestException(){
+	private static final long serialVersionUID = 1L;
+
+	public ResourceBadRequestException(){
         super("Recurso fora dos parâmetros :(");
     }
 

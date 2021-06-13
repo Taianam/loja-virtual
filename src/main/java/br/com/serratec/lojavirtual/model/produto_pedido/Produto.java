@@ -9,14 +9,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.SequenceGenerator;
 
 @Entity
-@Table(name = "Produtos")
+@SequenceGenerator(name = "generator_produto", sequenceName = "sequence_categoria", initialValue = 1, allocationSize = 1)
 public class Produto {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "generator_produto")
 	private Long id;
 	
 	@Column(nullable = false)
@@ -24,11 +24,7 @@ public class Produto {
 	private String descricao;
 	private Double preco;
 	private Integer estoque;
-
-	// @Lob
-	// @Column(name="BOOK_IMAGE", nullable=false, columnDefinition="mediumblob")	
 	private String imagem;
-
 	private LocalDate dataDeCadastro;
 
 	@ManyToOne()

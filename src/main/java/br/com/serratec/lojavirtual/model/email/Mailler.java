@@ -22,7 +22,6 @@ public class Mailler {
 			MimeMessageHelper helper = new MimeMessageHelper(email, true);
 			    
 			helper.setSubject(mensagem.getAssunto());
-		    helper.setFrom(mensagem.getRemetente());
 		    
 		    helper.setText(mensagem.getCorpo(), true);
 		         		
