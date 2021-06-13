@@ -7,7 +7,7 @@ public class PedidoRequest {
     
     private Integer numeroDoPedido;
 	private LocalDate dataDoPedido;
-	private String status;
+	private Boolean status;
 
     private List<Long> produtosId;
 
@@ -27,11 +27,11 @@ public class PedidoRequest {
         this.dataDoPedido = dataDoPedido;
     }
 
-    public String getStatus() {
+    public Boolean getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Boolean status) {
         this.status = status;
     }
 
@@ -43,5 +43,6 @@ public class PedidoRequest {
         this.produtosId = produtosId;
     }
 
+    
    
 }
