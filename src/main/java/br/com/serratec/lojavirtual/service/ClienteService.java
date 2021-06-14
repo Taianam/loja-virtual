@@ -31,7 +31,9 @@ import br.com.serratec.lojavirtual.security.JWTService;
 
 @Service
 public class ClienteService {
-	private static final String headerPrefix = "Bearer ";
+	
+	
+	private static final String headerPrefix = "Dev-HQs";
 	
 	
 	@Autowired
@@ -84,7 +86,10 @@ public class ClienteService {
 		verificarSeEmailExiste(cliente.getEmail());
 		validarCPF(cliente.getCpf());
 		ligarViaCepComEdereco(cliente.getEndereco());
-
+		
+		String senha = passwordEnconder.encode(cliente.getSenha());
+		cliente.setSenha(senha);
+		
 		try {
 			this._repositorioCliente.save(cliente);
 		} catch (Exception e) {
@@ -92,8 +97,6 @@ public class ClienteService {
 			throw new ResourceBadRequestException("Campo obrigatorio :(");
 
 		}
-		String senha = passwordEnconder.encode(cliente.getSenha());
-		cliente.setSenha(senha);
 		
 		var mensagem = "<!DOCTYPE html><html lang=pt-BR><head><meta charset=UTF-8><meta http-"
 		+ "equiv=X-UA-Compatible content=\"IE=edge\"><meta name=viewport content="
@@ -121,11 +124,12 @@ public class ClienteService {
 		}else if (!atualizar.getSenha().equals(clienteAtualizado.getSenha())) {
 			throw new ResourceNotFoundException("Usuario não encontrado!");
 		}
+		var senha = passwordEnconder.encode(atualizar.getNovaSenha());
 		clienteAtualizado.setId(id);
 		ligarViaCepComEdereco(atualizar.getEndereco());
 		clienteAtualizado.setDataDeNascimento(atualizar.getDataDeNascimento());
 		clienteAtualizado.setEmail(atualizar.getNovoEmail());
-		clienteAtualizado.setSenha(passwordEnconder.encode(atualizar.getNovaSenha()));
+		clienteAtualizado.setSenha(senha);
 		clienteAtualizado.setNome(atualizar.getNome());
 		clienteAtualizado.setTelefone(atualizar.getTelefone());
 		return clienteAtualizado;	

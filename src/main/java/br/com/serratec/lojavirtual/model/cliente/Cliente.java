@@ -40,7 +40,7 @@ public class Cliente implements UserDetails{
 	@Column(nullable = false)
 	private String nome;
 	
-	@Column(nullable = false, length = 8)
+	@Column(nullable = false)
 	private String senha;
 	
 	@Column( length = 11, nullable = false)

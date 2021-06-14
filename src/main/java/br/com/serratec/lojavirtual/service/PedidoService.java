@@ -96,18 +96,22 @@ public class PedidoService {
         } else{
             pedido.setPedidoFinalizado(false);
         }
-        
+       
+        if(pedido.getListaDeProdutos().size() == 0) {
+        	throw new ResourceBadRequestException("Impossivel finalizar o pedido, produto esgotado no estoque :(");
+        }
+      
         pedidoRequest.getProdutosId().forEach(idProduto -> {
         	Optional<Produto> p = _produtoRepository.findById(idProduto);
         	if(p.isPresent()){
         		pedido.getListaDeProdutos().add(p.get());
         		pedido.verificarEstoque();
+        		 pedido.calcularValorTotal();
         	}
         });
-        if(pedido.getListaDeProdutos().size() == 0) {
-        	throw new ResourceBadRequestException("Impossivel finalizar o pedido, produto esgotado no estoque :(");
-        }
-        pedido.calcularValorTotal();
+
+      
+
        
         enviarEmail(pedido.getPedidoFinalizado(), pedido);
         
@@ -125,7 +129,7 @@ public class PedidoService {
     }
 
     public void enviarEmail(Boolean pedidoFinalizado, Pedidos pedido){
-    	String imagem = null;
+    	String imagem = "";
     	LocalDate dataEntrega = pedido.getDataDoPedido().plusDays(7);
     	if (pedidoFinalizado == true) {
     	   for (Produto produto : pedido.getListaDeProdutos()) {
@@ -137,7 +141,7 @@ public class PedidoService {
     				+ "ound-color:#8abee6;color:#fff;text-align:center><h2 style=text-align:cente"
     				+ "r>Ola, %s, compra realizada com sucesso!</h2><h3 style=text-align:center>"
     				+ "A equipe Dev-HQs, agradece pela sua confiança!</h3><h4>Suas compras!</h4>"
-    				+ "<div>%s</div><h2>Data do pedido:%s</h2><h2>Data de entrega: %s</h2>"
+    				+ "<div> %s</div><h2>Data do pedido:%s</h2><h2>Data de entrega: %s</h2>"
     				+ "<h2>Valor Total da sua compra: %s</h2>";
     				mensagem = String.format(mensagem, pedido.getCliente().getNome(), imagem, pedido.getDataDoPedido(), dataEntrega,pedido.getValorTotalDoPedido());
     				

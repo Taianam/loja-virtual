@@ -29,7 +29,6 @@ public class Pedidos {
 	private Double valorTotalDoPedido = 0.0;
 	private LocalDate dataDoPedido;
 	private Boolean pedidoFinalizado;
-	// private Long cliente_id;
 
 	@ManyToMany
 	@JoinTable(name = "pedido_produto", joinColumns = @JoinColumn(name = "pedidoId"), inverseJoinColumns = @JoinColumn(name = "produtoId"))

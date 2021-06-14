@@ -23,7 +23,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
 
 @CrossOrigin(origins = "*")
-@Api(value = "API REST Loja-Vitual de HQs", authorizations = { @Authorization(value="jwtToken") })
+@Api(value = "API REST Loja-Vitual de HQs")
 @RestController
 @RequestMapping(value = "/api/categorias")
 public class CategoriaController {
