@@ -1,16 +1,24 @@
 package br.com.serratec.lojavirtual.service;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.com.caelum.stella.validation.CPFValidator;
 import br.com.caelum.stella.validation.InvalidStateException;
 import br.com.serratec.lojavirtual.dto.AtualizarCliente;
 import br.com.serratec.lojavirtual.dto.LoginRequest;
+import br.com.serratec.lojavirtual.dto.LoginResponse;
 import br.com.serratec.lojavirtual.exception.ResourceBadRequestException;
 import br.com.serratec.lojavirtual.exception.ResourceNotFoundException;
 import br.com.serratec.lojavirtual.model.cliente.Cliente;
@@ -19,15 +27,28 @@ import br.com.serratec.lojavirtual.model.cliente.EnderecoViaCep;
 import br.com.serratec.lojavirtual.model.email.Mailler;
 import br.com.serratec.lojavirtual.model.email.MenssagemEmail;
 import br.com.serratec.lojavirtual.repository.ClienteRepository;
+import br.com.serratec.lojavirtual.security.JWTService;
 
 @Service
 public class ClienteService {
+	private static final String headerPrefix = "Bearer ";
+	
+	
+	@Autowired
+	private JWTService jwtService;
+	
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private PasswordEncoder passwordEnconder;
+
+	@Autowired
+	private Mailler mailler;
 
 	@Autowired
 	private ClienteRepository _repositorioCliente;
 
-	@Autowired
-	private Mailler mailler;
 
 	@Autowired
 	private CepService servicoCep;
@@ -71,7 +92,9 @@ public class ClienteService {
 			throw new ResourceBadRequestException("Campo obrigatorio :(");
 
 		}
-
+		String senha = passwordEnconder.encode(cliente.getSenha());
+		cliente.setSenha(senha);
+		
 		var mensagem = "<!DOCTYPE html><html lang=pt-BR><head><meta charset=UTF-8><meta http-"
 		+ "equiv=X-UA-Compatible content=\"IE=edge\"><meta name=viewport content="
 		+ "\"width=device-width, initial-scale=1.0\"><title>Email</title><body "
@@ -102,7 +125,7 @@ public class ClienteService {
 		ligarViaCepComEdereco(atualizar.getEndereco());
 		clienteAtualizado.setDataDeNascimento(atualizar.getDataDeNascimento());
 		clienteAtualizado.setEmail(atualizar.getNovoEmail());
-		clienteAtualizado.setSenha(atualizar.getNovaSenha());
+		clienteAtualizado.setSenha(passwordEnconder.encode(atualizar.getNovaSenha()));
 		clienteAtualizado.setNome(atualizar.getNome());
 		clienteAtualizado.setTelefone(atualizar.getTelefone());
 		return clienteAtualizado;	
@@ -155,5 +178,59 @@ public class ClienteService {
 		}
 	}
 	
+	public String enviarEmail(Map<String, String> email) {
+
+
+	Optional<Cliente> verificarEmail =_repositorioCliente.findByEmail(email.get("email"));
+		
+		if (verificarEmail.isEmpty()){
+			
+			return "Email invalido!";		
+		}else {
+			
+			var mensagem = "<!doctypehtml><html lang=en><meta charset=UTF-8><meta content=\"IE=edge\"http-equiv=X-UA-Compatible>"
+					+ "<meta content=\"width=device-width,initial-scale=1\"name=viewport><title>Email</title><body style=backgrou"
+					+ "nd-color:#9ac2e2;text-align:center;color:#fff><h2>Esqueceu sua senha, %s ?</h2><h3>Não se preocupe, vamos"
+					+ " ajudar você, estamos te mandando um link longo a baixo.<br>Se caso você clicar e não for redirecionado para "
+					+ "a redefinição não se preocupe,<br>copie e cole o endereço no seu navegador, e tudo dara certo!</h3><a href=\""
+					+ ">http://localhost:8080/api/recuperar/email/%s\"style=color:#fff target=_blanks>http://localhost:8080/api/"
+					+ "recuperar/email/%s</a><div><img alt=\"\"src=https://www.almazena.com/wp-content/uploads/2015/04/cloud-"
+					+ "security.png style=width:350px></div><h4>A família Dev-HQs agradece seu contato!</h4>";
+			mensagem = String.format(mensagem, verificarEmail.get().getNome(), email.get("email"),email.get("email"));
+			var enviar = new MenssagemEmail("Esqueceu sua senha?", mensagem, Arrays.asList(email.get("email")));
+			mailler.enviar(enviar);
+			return "Email enviado com sucesso, verefique sua caixa de email!";
+		}
+			
+			
+	}
+	public Cliente recuperarSenha(String email, LoginRequest novo) {
+		
+		Optional<Cliente> verificarEmail= _repositorioCliente.findByEmail(email);
+		
+		if (verificarEmail.isPresent()) {
+			var senhaNova = passwordEnconder.encode(novo.getSenha());
+			verificarEmail.get().setSenha(senhaNova);
+			Cliente clienteAtualizado = _repositorioCliente.save(verificarEmail.get());
+			return clienteAtualizado;
+		}
+
+	return null;
+
+}
+
+	public LoginResponse logar(String email, String senha) {
+		
+		Authentication autenticacao = authenticationManager.authenticate(
+				new UsernamePasswordAuthenticationToken(email, senha, Collections.emptyList()));
+		
+		SecurityContextHolder.getContext().setAuthentication(autenticacao);
+		
+		String token = headerPrefix + jwtService.gerarToken(autenticacao);
+		
+		var usuario = _repositorioCliente.findByEmail(email);
+		
+		return new LoginResponse(token, usuario.get());
+	}
 	
 }

@@ -20,9 +20,10 @@ import br.com.serratec.lojavirtual.model.produto_pedido.Categoria;
 import br.com.serratec.lojavirtual.service.CategoriaService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
 
 @CrossOrigin(origins = "*")
-@Api(value = "API REST Loja-Vitual de HQs")
+@Api(value = "API REST Loja-Vitual de HQs", authorizations = { @Authorization(value="jwtToken") })
 @RestController
 @RequestMapping(value = "/api/categorias")
 public class CategoriaController {
@@ -36,7 +37,7 @@ public class CategoriaController {
 		return new ResponseEntity<>(this._categoriaService.obterTodos(), HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "Retorna uma lista de categorias por nome")
+	@ApiOperation(value = "Retorna uma lista de categorias por nome" )
 	@GetMapping(value = "/nome/{nome}")
 	public ResponseEntity<List<Categoria>> obterPorNome(@PathVariable(value = "nome") String nome) {
 

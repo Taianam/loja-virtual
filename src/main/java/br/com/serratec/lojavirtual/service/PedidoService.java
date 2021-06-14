@@ -1,11 +1,14 @@
 package br.com.serratec.lojavirtual.service;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.ResourceAccessException;
 
 import br.com.serratec.lojavirtual.dto.LoginRequest;
 import br.com.serratec.lojavirtual.dto.PedidoRequest;
@@ -41,6 +44,8 @@ public class PedidoService {
     }
     
     public Pedidos adicionarProdutos(PedidoRequest pedidoRequest, Long clienteId){
+    	Random random = new Random();
+    	Integer numeroPedido = random.nextInt(999999);
 
         Pedidos pedido = new Pedidos();
         Optional<Cliente> cliente = _clienteRepository.findById(clienteId);
@@ -50,11 +55,11 @@ public class PedidoService {
         }
         pedido.setCliente(cliente.get());
         pedido.setDataDoPedido(pedidoRequest.getDataDoPedido());
-        pedido.setNumeroDoPedido(pedidoRequest.getNumeroDoPedido());
-        if(pedidoRequest.getStatus().equalsIgnoreCase("sim")){
-            pedido.setStatus(true);
+        pedido.setNumeroDoPedido(numeroPedido);
+        if(pedidoRequest.getPedidoFinalizado().equalsIgnoreCase("sim")){
+            pedido.setPedidoFinalizado(true);
         } else{
-            pedido.setStatus(false);
+            pedido.setPedidoFinalizado(false);
         }
         
         pedidoRequest.getProdutosId().forEach(id -> {
@@ -64,13 +69,15 @@ public class PedidoService {
         		pedido.verificarEstoque();
         	}
         });
-        pedido.calcularValorTotal();
-        
-        enviarEmail(pedido.getStatus(), pedido);
         
         if(pedido.getListaDeProdutos().size() == 0) {
-        	throw new ResourceBadRequestException("Impossivel finalizar o pedido :(");
+        	throw new ResourceBadRequestException("Impossivel finalizar o pedido, produto esgotado no estoque :(");
         }
+        pedido.calcularValorTotal();
+        
+        enviarEmail(pedido.getPedidoFinalizado(), pedido);
+        
+      
         
         return _pedidoRepository.save(pedido);
     }
@@ -78,13 +85,16 @@ public class PedidoService {
     public Pedidos atualizar(PedidoRequest pedidoRequest,Long id){
 
     	Pedidos pedido = verificarSePedidoExiste(id).get();
+    	if(pedido.getPedidoFinalizado().equals(true)) {
+    		throw new ResourceAccessException("Seu pedido já foi finalizado, infelizemente não é possivel atualizar!");
+    	}
         pedido.setId(id);
         pedido.setDataDoPedido(pedidoRequest.getDataDoPedido());
         pedido.setNumeroDoPedido(pedidoRequest.getNumeroDoPedido());
-        if(pedidoRequest.getStatus().equalsIgnoreCase("sim")){
-            pedido.setStatus(true);
+        if(pedidoRequest.getPedidoFinalizado().equalsIgnoreCase("sim")){
+            pedido.setPedidoFinalizado(true);
         } else{
-            pedido.setStatus(false);
+            pedido.setPedidoFinalizado(false);
         }
         
         pedidoRequest.getProdutosId().forEach(idProduto -> {
@@ -94,9 +104,12 @@ public class PedidoService {
         		pedido.verificarEstoque();
         	}
         });
+        if(pedido.getListaDeProdutos().size() == 0) {
+        	throw new ResourceBadRequestException("Impossivel finalizar o pedido, produto esgotado no estoque :(");
+        }
         pedido.calcularValorTotal();
        
-        enviarEmail(pedido.getStatus(), pedido);
+        enviarEmail(pedido.getPedidoFinalizado(), pedido);
         
         return _pedidoRepository.save(pedido);
     }
@@ -111,23 +124,27 @@ public class PedidoService {
         return "Pedido Deletado";
     }
 
-    public void enviarEmail(Boolean status, Pedidos pedido){
-    	if (status == true) {
-    		var mensagem = "<!DOCTYPE html><html lang=pt-BR><head><meta charset=UTF-8><meta http-"
-    				+ "equiv=X-UA-Compatible content=\"IE=edge\"><meta name=viewport content="
-    				+ "\"width=device-width, initial-scale=1.0\"><title>Email</title><body "
-    				+ "style=background-color:#8abee6><div style=color:white;text-align:center><h1>Bem"
-    				+ " vindo, %s !</h1><h2>Parabéns! Seu cadastro foi realizado com sucesso"
-    				+ "!</h2></div><div style=text-align:center><img style=width:400px src=https://www/."
-    				+ "ecommerceworld.com.br/wp-content/uploads/2015/12/loja-virtual-e-commerce.png"
-    				+ " alt=eComerce></div><h2 style=color:white;text-align:center>A Familia Dev-HQs, "
-    				+ "agradece a sua preferencia!<br>Boas Compras!</h2>";		
-    				mensagem = String.format(mensagem, pedido);
+    public void enviarEmail(Boolean pedidoFinalizado, Pedidos pedido){
+    	String imagem = null;
+    	LocalDate dataEntrega = pedido.getDataDoPedido().plusDays(7);
+    	if (pedidoFinalizado == true) {
+    	   for (Produto produto : pedido.getListaDeProdutos()) {
+			imagem += produto.getImagem();
+    	   }
+    		var mensagem ="<!doctypehtml><html lang=en><meta charset=UTF-8><meta content=\\\"IE"
+    				+ "=edge\\\"http-equiv=X-UA-Compatible><meta content=\\\"width=device-width,"
+    				+ "initial-scale=1\\\"name=viewport><title>Compras</title><body style=backgr"
+    				+ "ound-color:#8abee6;color:#fff;text-align:center><h2 style=text-align:cente"
+    				+ "r>Ola, %s, compra realizada com sucesso!</h2><h3 style=text-align:center>"
+    				+ "A equipe Dev-HQs, agradece pela sua confiança!</h3><h4>Suas compras!</h4>"
+    				+ "<div>%s</div><h2>Data do pedido:%s</h2><h2>Data de entrega: %s</h2>"
+    				+ "<h2>Valor Total da sua compra: %s</h2>";
+    				mensagem = String.format(mensagem, pedido.getCliente().getNome(), imagem, pedido.getDataDoPedido(), dataEntrega,pedido.getValorTotalDoPedido());
     				
     				var email = new MenssagemEmail("Pedido Realizado com sucesso!", mensagem,Arrays.asList(pedido.getCliente().getEmail()));
     				mailler.enviar(email);
     	}
-    }
+    } 
 
     private Optional<Pedidos>  verificarSePedidoExiste(Long id) {
 		Optional<Pedidos> pedido = this._pedidoRepository.findById(id);

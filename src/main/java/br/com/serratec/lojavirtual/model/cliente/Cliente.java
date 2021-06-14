@@ -1,6 +1,7 @@
 package br.com.serratec.lojavirtual.model.cliente;
 
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -14,12 +15,20 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 
-import br.com.serratec.lojavirtual.exception.ResourceBadRequestException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import br.com.serratec.lojavirtual.model.produto_pedido.Pedidos;
+import com.sun.security.auth.UserPrincipal;
 
 @Entity
 @SequenceGenerator(name = "generator_cliente", sequenceName = "sequence_cliente", initialValue = 1, allocationSize = 1)
-public class Cliente {
+public class Cliente implements UserDetails{
+
+	
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "generator_cliente")
@@ -132,11 +141,49 @@ public class Cliente {
 		this.endereco= endereco;
 	}
 
-	//#endregion
-
-	public void verificarCPF(Cliente cliente){
-		if(this.cpf != cliente.getCpf()){
-			throw new ResourceBadRequestException("Não é possivel atualizar seu CPF por favor coloque o mesmo ;-;");
-		}
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		// TODO Auto-generated method stub
+		return null;
 	}
+
+	@Override
+	@JsonIgnore
+	public String getPassword() {
+		// TODO Auto-generated method stub
+		return senha;
+	}
+
+	@Override
+	@JsonIgnore
+	public String getUsername() {
+		// TODO Auto-generated method stub
+		return email;
+	}
+
+	@Override
+	@JsonIgnore
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	@Override
+	@JsonIgnore
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	@Override
+	@JsonIgnore
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	@Override
+	@JsonIgnore
+	public boolean isEnabled() {
+		return true;
+	}
+	
+	
 }

@@ -25,11 +25,10 @@ public class Pedidos {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "generator_idPedido")
 	private Long id;
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Integer numeroDoPedido;
 	private Double valorTotalDoPedido = 0.0;
 	private LocalDate dataDoPedido;
-	private Boolean status;
+	private Boolean pedidoFinalizado;
 	// private Long cliente_id;
 
 	@ManyToMany
@@ -45,13 +44,13 @@ public class Pedidos {
 	}
 
 	public Pedidos(Integer numeroDoPedido, ArrayList<Produto> listaDeProdutos, Double valorTotalDoPedido,
-			LocalDate dataDoPedido, Boolean status, Long cliente_id) {
+			LocalDate dataDoPedido, Boolean pedidoFinalizado, Long cliente_id) {
 
 		this.numeroDoPedido = numeroDoPedido;
 		this.listaDeProdutos = listaDeProdutos;
 		this.valorTotalDoPedido = valorTotalDoPedido;
 		this.dataDoPedido = dataDoPedido;
-		this.status = status;
+		this.pedidoFinalizado = pedidoFinalizado;
 	}
 
 	public Long getId() {
@@ -102,12 +101,12 @@ public class Pedidos {
 		this.dataDoPedido = dataDoPedido;
 	}
 
-	public Boolean getStatus() {
-		return status;
+	public Boolean getPedidoFinalizado() {
+		return pedidoFinalizado;
 	}
 
-	public void setStatus(Boolean status) {
-		this.status = status;
+	public void setPedidoFinalizado(Boolean pedidoFinalizado) {
+		this.pedidoFinalizado = pedidoFinalizado;
 	}
 
 	public Double calcularValorTotal(){
