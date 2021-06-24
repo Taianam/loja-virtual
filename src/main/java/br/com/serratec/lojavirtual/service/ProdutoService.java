@@ -1,5 +1,6 @@
 package br.com.serratec.lojavirtual.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,6 +35,20 @@ public class ProdutoService {
 			throw new ResourceNotFoundException("Não foi encontrado nenhuma Produto para o id: " + id);
 		}
 		return Produto;
+	}
+
+	public List<Produto> obterPorCategoria(Long idCategoria){
+		
+		List<Produto> produtos = new ArrayList<>();
+
+		var todosOsProdutos = obterTodos();
+
+		for ( Produto produto : todosOsProdutos) {
+			if(produto.getCategoria().getId() == idCategoria){
+				produtos.add(produto);
+			}
+		}
+		return produtos;
 	}
 
 	public List<Produto> obterPorNome(String nome) {

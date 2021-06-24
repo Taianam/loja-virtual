@@ -45,6 +45,13 @@ public class ProdutoController {
 		return new ResponseEntity<>(this._produtoService.obterPorNome(nome), HttpStatus.OK);
 	}
 
+	@ApiOperation(value = "Retorna uma Lista de produtos por id")
+	@GetMapping(value = "/idcategoria/{idcategoria}")
+	public ResponseEntity<List<Produto>> obterPorCategoria(@PathVariable(value = "idcategoria") Long idcategoria){
+
+		return new ResponseEntity<>(_produtoService.obterPorCategoria(idcategoria), HttpStatus.OK);
+	}
+
 	@ApiOperation(value = "Obter Produto por id")
 	@GetMapping("/{id}")
 	public ResponseEntity<Optional<Produto>> obterPorId(@PathVariable(value = "id") Long id){
@@ -80,7 +87,7 @@ public class ProdutoController {
 		return new ResponseEntity<>(this._produtoService.atualizar(id, produto), HttpStatus.OK);
 	}
 	
-	@ApiOperation(value = "Atualiza a categoria de um produto já existente")
+	@ApiOperation(value = "Atualiza produto com categoria")
 	@PutMapping(value = "/{id}/categoria/{categoriaId}")
 	public ResponseEntity<Produto> atualizar(@PathVariable(value = "id")Long id, @RequestBody Produto produto, @PathVariable(value = "categoriaId") Long categoriaId) {
 		

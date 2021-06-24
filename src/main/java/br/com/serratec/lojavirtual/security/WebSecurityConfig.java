@@ -76,7 +76,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.permitAll()
 
 			
-			.anyRequest().authenticated(); 
+			// .anyRequest().authenticated();
+			.anyRequest().permitAll(); 
 			
 		http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 			
