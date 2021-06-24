@@ -90,7 +90,6 @@ public class PedidoService {
     	}
         pedido.setId(id);
         pedido.setDataDoPedido(pedidoRequest.getDataDoPedido());
-        pedido.setNumeroDoPedido(pedidoRequest.getNumeroDoPedido());
         if(pedidoRequest.getPedidoFinalizado().equalsIgnoreCase("sim")){
             pedido.setPedidoFinalizado(true);
         } else{
@@ -133,7 +132,7 @@ public class PedidoService {
     	LocalDate dataEntrega = pedido.getDataDoPedido().plusDays(7);
     	if (pedidoFinalizado == true) {
     	   for (Produto produto : pedido.getListaDeProdutos()) {
-			imagem += produto.getImagem();
+			imagem += "<img src=" + produto.getImagem() +  " style=\"width: 100px; margin-left: 7px; \">";
     	   }
     		var mensagem ="<!doctypehtml><html lang=en><meta charset=UTF-8><meta content=\\\"IE"
     				+ "=edge\\\"http-equiv=X-UA-Compatible><meta content=\\\"width=device-width,"
@@ -145,7 +144,7 @@ public class PedidoService {
     				+ "<h2>Valor Total da sua compra: %s</h2>";
     				mensagem = String.format(mensagem, pedido.getCliente().getNome(), imagem, pedido.getDataDoPedido(), dataEntrega,pedido.getValorTotalDoPedido());
     				
-    				var email = new MenssagemEmail("Pedido Realizado com sucesso!", mensagem,Arrays.asList(pedido.getCliente().getEmail()));
+    				var email = new MenssagemEmail("Pedido Realizado com sucesso!", mensagem,Arrays.asList("devshqs@gmail.com", pedido.getCliente().getEmail()));
     				mailler.enviar(email);
     	}
     } 
